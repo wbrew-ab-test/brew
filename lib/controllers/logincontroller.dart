@@ -1,7 +1,7 @@
-
 import 'package:brew/logger/brewlogger.dart';
-import 'package:brew/services/brewloginservice.dart';
-import 'package:brew/services/loginservice.dart';
+import 'package:brew/models/brewauthenticationrequest.dart';
+import 'package:brew/models/brewprofile.dart';
+import 'package:brew/services/userauthservice.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -15,7 +15,7 @@ class LoginController extends GetxController {
   void onInit() {
     nameController.text = '';
     super.onInit();
-    Get.lazyPut(()=>LoginService());
+    // Get.lazyPut(() => UserAuthService());
     ever(loginSuccess, (val) {
       logger.d('loginSuccess : ' + val.toString());
       if (val == 1) {
@@ -31,20 +31,33 @@ class LoginController extends GetxController {
     return null;
   }
 
-  void login() {
+  void login() async {
     if (loginFormKey.currentState!.validate()) {
-      BrewLoginService.signInWeb(nameController.text, passwordController.text);
-      logger.d('val : ' + loginSuccess.obs.value.toString());
+      BrewAuthenticationRequest request = BrewAuthenticationRequest(
+          email: nameController.text,
+          password: passwordController.text,
+          returnSecureToken: true);
+
+      late Future<Response> userProfile =
+          Get.find<UserAuthService>().authenticateUser(request, true);
+
+      await userProfile.then((responseObj) {
+        logger.d("Status Code : " + responseObj.body.toString());
+        if (responseObj.statusCode == 200) {
+          BrewProfile obj = BrewProfile.fromJson(responseObj.body);
+          loginSuccessChange();
+          logger.d('val : ' + loginSuccess.obs.value.toString());
+        }
+      });
     }
   }
 
   void loginSuccessChange() {
     logger.d('inside update');
     loginSuccess = 1.obs;
-    Get.toNamed('/signup');
+    Get.toNamed('/dashboard');
     update();
   }
-
 
   @override
   void onClose() {
@@ -52,5 +65,4 @@ class LoginController extends GetxController {
     passwordController.dispose();
     super.onClose();
   }
-
 }

@@ -2,7 +2,6 @@ import 'package:brew/constants/brewconstants.dart';
 import 'package:brew/controllers/logincontroller.dart';
 import 'package:brew/helper/modedetector.dart';
 import 'package:brew/logger/brewlogger.dart';
-import 'package:brew/services/brewloginservice.dart';
 import 'package:brew/views/common/commonviews.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -10,75 +9,39 @@ import 'package:flutter/rendering.dart';
 import 'package:get/route_manager.dart';
 
 class LoginViews {
-
-  static Container desktopView(
-      BuildContext context,
-      LoginController controller,
-      FocusNode node
-      ) {
-
+  static Scaffold desktopView(
+      BuildContext context, LoginController controller, FocusNode node) {
     final double width = (MediaQuery.of(context).size.width * 1);
+
     logger.d('Width : ' + width.toString());
-    return Container(
-      color: ModeDetector.isDarkMode(context)
-          ? BrewConstants.black87
-          : BrewConstants.white,
-      child: SafeArea(
-        top: false,
-        left: false,
-        bottom: false,
-        right: true,
-        minimum: const EdgeInsets.all(1.0),
-        child: Scaffold(
-          backgroundColor: ModeDetector.isDarkMode(context)
-              ? BrewConstants.black87
-              : BrewConstants.white,
-          body: Center(
-            child: Row(
-              children: <Widget>[
-                width > 767 ? Expanded(
-                    flex: 2,
-                    child: CommonViews.backgroundImage(context),
-                ): Container(),
-                Expanded(
-                  flex: 1,
-                  child: Container(
-                    // height: 100,
-                    padding: EdgeInsets.fromLTRB(10, 80, 10,10),
-                    alignment: Alignment.center,
-                    child: new Form(
-                      key: controller.loginFormKey,
-                      child: ListView(
-                        children: <Widget>[
-                          CommonViews.pageTitle(context, BrewConstants.pulse),
-                          CommonViews.textFieldControl(
-                              context,
-                              node,
-                              controller,
-                              controller.nameController,
-                              BrewConstants.userName,
-                              false
-                          ),
-                          CommonViews.textFieldControl(
-                              context,
-                              node,
-                              controller,
-                              controller.passwordController,
-                              BrewConstants.password,
-                              true
-                          ),
-                          loginButton(
-                              context,
-                              controller
-                          ),
-                          forgotPassword(),
-                          signupContainer(context),
-                        ],
-                      ),
-                    )
-                  ),
-                ),
-              ],
+
+    return Scaffold(
+      body: Container(
+        color: ModeDetector.isDarkMode(context)
+            ? BrewConstants.black87
+            : BrewConstants.white,
+        child: SafeArea(
+          top: false,
+          left: false,
+          bottom: false,
+          right: true,
+          minimum: const EdgeInsets.all(1.0),
+          child: Scaffold(
+            backgroundColor: ModeDetector.isDarkMode(context)
+                ? BrewConstants.black87
+                : BrewConstants.white,
+            body: Center(
+              child: Row(
+                children: <Widget>[
+                  width > 767
+                      ? Expanded(
+                          flex: 2,
+                          child: CommonViews.backgroundImage(context),
+                        )
+                      : Container(),
+                  loginForm(controller, context, node),
+                ],
+              ),
             ),
           ),
         ),
@@ -86,14 +49,33 @@ class LoginViews {
     );
   }
 
-  static Container mobileView() {
-    return Container();
-  }
-
-  static Container loginContainer(BuildContext context) {
-    return Container(
-      alignment: Alignment.center,
-      child: Text('Login')
+  static Scaffold mobileView(
+      BuildContext context, LoginController controller, FocusNode node) {
+    return Scaffold(
+      body: Container(
+        color: ModeDetector.isDarkMode(context)
+            ? BrewConstants.black87
+            : BrewConstants.white,
+        child: SafeArea(
+          top: false,
+          left: false,
+          bottom: false,
+          right: true,
+          minimum: const EdgeInsets.all(1.0),
+          child: Scaffold(
+            backgroundColor: ModeDetector.isDarkMode(context)
+                ? BrewConstants.black87
+                : BrewConstants.white,
+            body: Center(
+              child: Row(
+                children: <Widget>[
+                  loginForm(controller, context, node),
+                ],
+              ),
+            ),
+          ),
+        ),
+      ),
     );
   }
 
@@ -112,9 +94,7 @@ class LoginViews {
   }
 
   static Container loginButton(
-      BuildContext context,
-      LoginController controller
-      ) {
+      BuildContext context, LoginController controller) {
     return Container(
       height: 50,
       padding: EdgeInsets.fromLTRB(10, 10, 10, 0),
@@ -156,14 +136,7 @@ class LoginViews {
           FlatButton(
             padding: EdgeInsets.zero,
             onPressed: () {
-              Get.toNamed(
-                '/signup'
-              );
-              // Navigator.push(
-              //     context,
-              //     MaterialPageRoute(
-              //       builder: (context) => TimelineSignup(),
-              //     ));
+              Get.toNamed('/signup');
             },
             child: Padding(
               padding: EdgeInsets.zero,
@@ -182,4 +155,34 @@ class LoginViews {
     );
   }
 
+  static Expanded loginForm(
+      LoginController controller, BuildContext context, FocusNode node) {
+    return Expanded(
+      flex: 1,
+      child: Container(
+          // height: 100,
+          padding: EdgeInsets.fromLTRB(10, 40, 10, 10),
+          alignment: Alignment.center,
+          child: new Form(
+            key: controller.loginFormKey,
+            child: ListView(
+              children: <Widget>[
+                CommonViews.pageTitle(context, BrewConstants.pulse),
+                CommonViews.textFieldControl(context, node, controller,
+                    controller.nameController, BrewConstants.userName, false),
+                CommonViews.textFieldControl(
+                    context,
+                    node,
+                    controller,
+                    controller.passwordController,
+                    BrewConstants.password,
+                    true),
+                loginButton(context, controller),
+                forgotPassword(),
+                signupContainer(context),
+              ],
+            ),
+          )),
+    );
+  }
 }

@@ -7,10 +7,7 @@ import 'package:get/route_manager.dart';
 
 class SignupViews {
   static Container desktopView(
-      BuildContext context,
-      FocusNode node,
-      SignupController controller
-      ) {
+      BuildContext context, FocusNode node, SignupController controller) {
     final double width = (MediaQuery.of(context).size.width * 1);
     return Container(
       color: ModeDetector.isDarkMode(context)
@@ -29,76 +26,13 @@ class SignupViews {
           body: Center(
             child: Row(
               children: <Widget>[
-                width > 767 ? Expanded(
-                  flex: 2,
-                  child: CommonViews.backgroundImage(context),
-                ): Container(),
-                Expanded(
-                  flex: 1,
-                  child: Container(
-                    // height: 100,
-                    padding: EdgeInsets.fromLTRB(10, 80, 10,10),
-                    alignment: Alignment.center,
-                    child: new Form(
-                      key: controller.signupFormKey,
-                      child: ListView(
-                        children: <Widget>[
-                          CommonViews.pageTitle(context, BrewConstants.pulse),
-                          CommonViews.textFieldControl(
-                              context,
-                              node,
-                              controller,
-                              controller.firstNameController,
-                              BrewConstants.firstName,
-                              false
-                          ),
-                          CommonViews.textFieldControl(
-                              context,
-                              node,
-                              controller,
-                              controller.lastNameController,
-                              BrewConstants.lastName,
-                              false
-                          ),
-                          CommonViews.textFieldControl(
-                              context,
-                              node,
-                              controller,
-                              controller.displayNameController,
-                              BrewConstants.displayName,
-                              false
-                          ),
-                          CommonViews.textFieldControl(
-                              context,
-                              node,
-                              controller,
-                              controller.emailController,
-                              BrewConstants.emailAddress,
-                              false
-                          ),
-                          CommonViews.textFieldControl(
-                              context,
-                              node,
-                              controller,
-                              controller.passwordController,
-                              BrewConstants.password,
-                              true
-                          ),
-                          CommonViews.textFieldControl(
-                              context,
-                              node,
-                              controller,
-                              controller.confirmPasswordController,
-                              BrewConstants.confirmPassword,
-                              true
-                          ),
-                          signupButton(controller),
-                          gotoLogin(context)
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
+                width > 767
+                    ? Expanded(
+                        flex: 2,
+                        child: CommonViews.backgroundImage(context),
+                      )
+                    : Container(),
+                signupForm(context, node, controller),
               ],
             ),
           ),
@@ -107,9 +41,31 @@ class SignupViews {
     );
   }
 
-  static Container mobileView() {
+  static Container mobileView(
+      BuildContext context, FocusNode node, SignupController controller) {
     return Container(
-      child: Text('signup Mobile'),
+      color: ModeDetector.isDarkMode(context)
+          ? BrewConstants.black87
+          : BrewConstants.white,
+      child: SafeArea(
+        top: false,
+        left: false,
+        bottom: false,
+        right: true,
+        minimum: const EdgeInsets.all(1.0),
+        child: Scaffold(
+          backgroundColor: ModeDetector.isDarkMode(context)
+              ? BrewConstants.black87
+              : BrewConstants.white,
+          body: Center(
+            child: Row(
+              children: <Widget>[
+                signupForm(context, node, controller),
+              ],
+            ),
+          ),
+        ),
+      ),
     );
   }
 
@@ -122,9 +78,7 @@ class SignupViews {
         color: BrewConstants.pulseBlue,
         child: Text(BrewConstants.signUp),
         onPressed: () {
-          if (controller.signupFormKey.currentState!.validate()) {
-
-          }
+          controller.signup();
         },
       ),
     );
@@ -156,4 +110,57 @@ class SignupViews {
     );
   }
 
+  static Expanded signupForm(
+      BuildContext context, FocusNode node, SignupController controller) {
+    return Expanded(
+      flex: 1,
+      child: Container(
+        // height: 100,
+        padding: EdgeInsets.fromLTRB(10, 40, 10, 10),
+        alignment: Alignment.center,
+        child: new Form(
+          key: controller.signupFormKey,
+          child: ListView(
+            children: <Widget>[
+              CommonViews.pageTitle(context, BrewConstants.pulse),
+              CommonViews.textFieldControl(
+                  context,
+                  node,
+                  controller,
+                  controller.firstNameController,
+                  BrewConstants.firstName,
+                  false),
+              CommonViews.textFieldControl(context, node, controller,
+                  controller.lastNameController, BrewConstants.lastName, false),
+              CommonViews.textFieldControl(
+                  context,
+                  node,
+                  controller,
+                  controller.displayNameController,
+                  BrewConstants.displayName,
+                  false),
+              CommonViews.textFieldControl(
+                  context,
+                  node,
+                  controller,
+                  controller.emailController,
+                  BrewConstants.emailAddress,
+                  false),
+              CommonViews.textFieldControl(context, node, controller,
+                  controller.passwordController, BrewConstants.password, true),
+              CommonViews.textFieldControl(
+                  context,
+                  node,
+                  controller,
+                  controller.confirmPasswordController,
+                  BrewConstants.confirmPassword,
+                  true),
+              signupButton(controller),
+              gotoLogin(context)
+            ],
+          ),
+        ),
+      ),
+    );
+  }
 }
