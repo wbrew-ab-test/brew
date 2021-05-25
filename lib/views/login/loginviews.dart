@@ -2,6 +2,7 @@ import 'package:brew/constants/brewconstants.dart';
 import 'package:brew/controllers/logincontroller.dart';
 import 'package:brew/helper/modedetector.dart';
 import 'package:brew/logger/brewlogger.dart';
+import 'package:brew/services/brewloginservice.dart';
 import 'package:brew/views/common/commonviews.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -13,8 +14,9 @@ class LoginViews {
   static Container desktopView(
       BuildContext context,
       LoginController controller,
-      FocusNode node,
+      FocusNode node
       ) {
+
     final double width = (MediaQuery.of(context).size.width * 1);
     logger.d('Width : ' + width.toString());
     return Container(
@@ -121,15 +123,7 @@ class LoginViews {
         color: BrewConstants.pulseBlue,
         child: Text(BrewConstants.login),
         onPressed: () {
-          if (controller.loginFormKey.currentState!.validate()) {
-            // logger.i('Building the request for login.');
-            // TimelineAuthorization.signIn(
-            //     nameController.text,
-            //     passwordController.text,
-            //     this.isFaceID,
-            //     context,
-            //     storage);
-          }
+          controller.login();
         },
       ),
     );

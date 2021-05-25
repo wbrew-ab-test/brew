@@ -27,7 +27,7 @@ class SignupController extends GetxController {
     if (value == null || value.isEmpty) {
       return 'Please this field must be filled';
     }
-    return value;
+    return null;
   }
 
   void signup() {
