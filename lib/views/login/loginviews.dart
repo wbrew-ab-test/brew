@@ -1,18 +1,20 @@
 import 'package:brew/constants/brewconstants.dart';
 import 'package:brew/controllers/logincontroller.dart';
 import 'package:brew/helper/modedetector.dart';
+import 'package:brew/helper/platforminfo.dart';
 import 'package:brew/logger/brewlogger.dart';
 import 'package:brew/views/common/commonviews.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:get/get.dart';
 import 'package:get/route_manager.dart';
 
 class LoginViews {
   static Scaffold desktopView(
       BuildContext context, LoginController controller, FocusNode node) {
     final double width = (MediaQuery.of(context).size.width * 1);
-
     logger.d('Width : ' + width.toString());
 
     return Scaffold(
@@ -69,7 +71,12 @@ class LoginViews {
             body: Center(
               child: Row(
                 children: <Widget>[
-                  loginForm(controller, context, node),
+                  GetBuilder<LoginController>(
+                    init: LoginController(),
+                    builder: (controller) =>
+                        loginForm(controller, context, node),
+                  ),
+                  // loginForm(controller, context, node),
                 ],
               ),
             ),
@@ -177,6 +184,7 @@ class LoginViews {
                     controller.passwordController,
                     BrewConstants.password,
                     true),
+                nonDesktopView(controller, context),
                 loginButton(context, controller),
                 forgotPassword(),
                 signupContainer(context),
@@ -184,5 +192,68 @@ class LoginViews {
             ),
           )),
     );
+  }
+
+  static dynamic nonDesktopView(
+      LoginController controller, BuildContext context) {
+    return controller.isFaceID && !PlatformInfo.isWeb()
+        ? InkWell(
+            onTap: () => controller.authenticate(controller.nameController.text,
+                controller.passwordController.text, controller.isFaceID),
+            child: Container(
+                decoration: BoxDecoration(
+                  color: Colors.transparent,
+                  border: Border.all(color: Colors.transparent, width: 2.0),
+                  // borderRadius: BorderRadius.circular(30.0),
+                ),
+                padding: EdgeInsets.all(10.0),
+                // child: Image.asset("assets/faceid.png"),
+                child: PlatformInfo.isAndroid()
+                    ? Icon(
+                        FontAwesomeIcons.fingerprint,
+                        color: ModeDetector.isDarkMode(context)
+                            ? BrewConstants.white70
+                            : BrewConstants.black54,
+                      )
+                    : Text(
+                        BrewConstants.enabledFaceId,
+                        style: TextStyle(
+                          color: BrewConstants.indigo,
+                        ),
+                        textAlign: TextAlign.center,
+                      )),
+          )
+        : !controller.isFaceID && !PlatformInfo.isWeb()
+            ? InkWell(
+                child: Container(
+                  child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        Theme(
+                          data: ThemeData(
+                            unselectedWidgetColor:
+                                ModeDetector.isDarkMode(context)
+                                    ? BrewConstants.darkCheckboxTick
+                                    : BrewConstants.lightCheckboxTick,
+                          ),
+                          child: Checkbox(
+                              value: controller.isFaceID,
+                              onChanged: (v) {
+                                logger.d('v : ' + v.toString());
+                                var val = controller.isFaceID;
+                                controller.isFaceID = !val;
+                                controller.update();
+                              }),
+                        ),
+                        Text(
+                          BrewConstants.enableFaceId,
+                          style: TextStyle(
+                            color: BrewConstants.indigo,
+                          ),
+                        ),
+                      ]),
+                ),
+              )
+            : InkWell(child: Container());
   }
 }
