@@ -23,7 +23,9 @@ class LoginController extends GetxController {
     nameController.text = '';
     // isFaceID = PlatformInfo.isIOS() || PlatformInfo.isAndroid() ? true : false;
     super.onInit();
-    getSecureStorageForMobileDevices();
+    if (PlatformInfo.isIOS() || PlatformInfo.isAndroid()) {
+      getSecureStorageForMobileDevices();
+    }
     // Get.lazyPut(() => UserAuthService());
     ever(loginSuccess, (val) {
       logger.d('loginSuccess : ' + val.toString());
@@ -35,50 +37,40 @@ class LoginController extends GetxController {
 
   void getSecureStorageForMobileDevices() async {
     try {
-      String? email;
-      String? password;
-      Future<String?> isUsingBio = storage.read(key: 'wantsTouchId');
-      await isUsingBio.then((value) {
-        if (null != value) {
-          logger.d('Value :' + value);
-          isFaceID = true;
-        } else {
-          logger.d('Value : null ');
-          isFaceID = false;
-        }
+      logger.d('getSecureStorageForMobileDevices');
+      String? isUsingBio = await storage.read(key: 'wantsTouchId');
+      String? storedEmail = await storage.read(key: 'email');
+      String? storedPassword = await storage.read(key: 'password');
+
+      if (null != isUsingBio && isUsingBio.isNotEmpty) {
+        isFaceID = true;
         update();
-      });
-      // final storedEmail = await storage.read(key: 'email');
-      // final storedPassword = await storage.read(key: 'password');
+      } else {
+        isFaceID = false;
+        update();
+      }
 
-      // isFaceID = isUsingBio == 'true';
-      // email =
-      //     (null != storedEmail && storedEmail.isNotEmpty) ? storedEmail : null;
-      // password = (null != storedPassword && storedPassword.isNotEmpty)
-      //     ? storedPassword
-      //     : null;
-      // isFaceID = (isUsingBio == 'true' && null != email && null != password)
-      //     ? true
-      //     : false;
-
-      // if (null != email) {
-      //   nameController.text = email;
-      // }
-      // if (null != password) {
-      //   passwordController.text = password;
-      // }
-      // if (null != email &&
-      //     null != password &&
-      //     isFaceID &&
-      //     PlatformInfo.isIOS()) {
-      //   // authenticate();
-      // }
-      // logger.i('isFaceID : ' +
-      //     isFaceID.toString() +
-      //     ' : email : ' +
-      //     email.toString() +
-      //     ' : password : ' +
-      //     password.toString());
+      if (null != storedEmail && storedEmail.isNotEmpty) {
+        nameController.text = storedEmail;
+      }
+      if (null != storedPassword && storedPassword.isNotEmpty) {
+        passwordController.text = storedPassword;
+      }
+      update();
+      if (null != storedEmail &&
+          storedEmail.isNotEmpty &&
+          null != storedPassword &&
+          storedPassword.isNotEmpty &&
+          isFaceID &&
+          PlatformInfo.isIOS()) {
+        logger.d('storedEmail : ' +
+            storedEmail +
+            ': storedPassword : ' +
+            storedPassword +
+            ' : isFaceID : ' +
+            isFaceID.toString());
+        authenticate(storedEmail, storedPassword, isFaceID);
+      }
     } on PlatformException catch (e) {
       logger.e(e);
     }
@@ -106,6 +98,7 @@ class LoginController extends GetxController {
         if (responseObj.statusCode == 200) {
           BrewProfile obj = BrewProfile.fromJson(responseObj.body);
           loginSuccessChange();
+
           logger.d('val : ' + loginSuccess.obs.value.toString());
         }
       });
@@ -124,12 +117,19 @@ class LoginController extends GetxController {
     nameController.dispose();
     passwordController.dispose();
     super.onClose();
+    super.dispose();
   }
 
   void authenticate(String email, String password, bool isBio) async {
-    final canCheck = await auth.canCheckBiometrics;
-    logger.i('authenticate method ' + canCheck.toString());
+    logger.d('Login Controller authenticate method : ' +
+        'email : ' +
+        email +
+        ' : password : ' +
+        ' : isBio : ' +
+        isBio.toString());
     try {
+      final canCheck = await auth.canCheckBiometrics;
+      logger.i('authenticate method ' + canCheck.toString());
       if (canCheck) {
         List<BiometricType> availableBiometrics =
             await auth.getAvailableBiometrics();
@@ -182,6 +182,8 @@ class LoginController extends GetxController {
           if (responseObj.statusCode == 200) {
             BrewProfile obj = BrewProfile.fromJson(responseObj.body);
             loginSuccessChange();
+            writeBiometrics(nameController.text, passwordController.text,
+                isBio.toString(), storage, auth, PlatformInfo.isIOS());
             logger.d('val : ' + loginSuccess.obs.value.toString());
           }
         });
@@ -194,10 +196,10 @@ class LoginController extends GetxController {
     }
   }
 
-  static writeBiometrics(
-      email,
-      password,
-      wantsTouchId,
+  void writeBiometrics(
+      String email,
+      String password,
+      String wantsTouchId,
       FlutterSecureStorage storage,
       LocalAuthentication auth,
       bool isIOS) async {

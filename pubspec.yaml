@@ -1,5 +1,5 @@
 name: brew
-description: A new Flutter project.
+description: Pulse.
 
 # The following line prevents the package from being accidentally published to
 # pub.dev using `pub publish`. This is preferred for private packages.
@@ -30,6 +30,7 @@ dependencies:
   font_awesome_flutter: ^9.0.0
   shared_preferences: ^2.0.0-nullsafety
   get: ^4.1.4
+  flutter_launcher_icons: ^0.9.0
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
@@ -38,7 +39,11 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
-
+    
+flutter_icons:
+    android: "launcher_icon"
+    ios: true
+    image_path: "assets/icon/pulse_icon.png"
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
 
@@ -56,7 +61,6 @@ flutter:
   #   - images/a_dot_ham.jpeg
   assets:
     - assets/loginbackground.png
-
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
 
@@ -82,3 +86,4 @@ flutter:
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
+

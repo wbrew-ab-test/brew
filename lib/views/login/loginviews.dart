@@ -53,6 +53,7 @@ class LoginViews {
 
   static Scaffold mobileView(
       BuildContext context, LoginController controller, FocusNode node) {
+    logger.d('Loading Mobile view');
     return Scaffold(
       body: Container(
         color: ModeDetector.isDarkMode(context)
