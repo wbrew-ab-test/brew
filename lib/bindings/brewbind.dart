@@ -1,4 +1,5 @@
 import 'package:brew/controllers/logincontroller.dart';
+import 'package:brew/controllers/menucontroller.dart';
 import 'package:brew/controllers/signupcontroller.dart';
 import 'package:get/get.dart';
 import 'package:get/get_instance/src/bindings_interface.dart';
@@ -9,5 +10,6 @@ class BrewBind extends Bindings {
   void dependencies() {
     Get.lazyPut(() => LoginController());
     Get.lazyPut(() => SignupController());
+    Get.lazyPut(() => MenuController());
   }
 }

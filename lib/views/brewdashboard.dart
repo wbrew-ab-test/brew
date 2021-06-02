@@ -1,4 +1,3 @@
-import 'package:brew/constants/brewconstants.dart';
 import 'package:brew/helper/platforminfo.dart';
 import 'package:brew/views/common/commonviews.dart';
 import 'package:brew/views/menu/brewmenu.dart';
@@ -8,6 +7,7 @@ class BrewDashboard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     FocusNode node = new FocusNode();
+
     return Scaffold(
         appBar: CommonViews.getAppBar('Dashboard'),
         drawer: BrewMenu(),
