@@ -1,5 +1,7 @@
 import 'package:brew/constants/brewconstants.dart';
+import 'package:brew/controllers/menucontroller.dart';
 import 'package:brew/helper/modedetector.dart';
+import 'package:brew/logger/brewlogger.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -103,4 +105,66 @@ class CommonViews {
       ),
     );
   }
+
+  static Container populateMenu(MenuController controller) {
+    return Container(
+        color: BrewConstants.pulseBlue,
+        child: Container(
+          child: ListView.builder(
+              scrollDirection: Axis.vertical,
+              shrinkWrap: true,
+              itemCount: controller.menu!.length,
+              itemBuilder: (BuildContext context, int index) {
+                return Column(
+                  children: <Widget>[
+                    ListTile(
+                      title: Text(
+                        controller.menu![index].displayName,
+                        style: TextStyle(
+                            color: BrewConstants.white, fontSize: 18.0),
+                      ),
+                      onTap: () {
+                        logger.d('Display Name : ' +
+                            controller.menu![index].displayName);
+                      },
+                    ),
+                    Divider(
+                      color: BrewConstants.white,
+                    ),
+                  ],
+                );
+              }),
+        ));
+  }
+
+  static ListTile listMenu(MenuController controller) {
+    return new ListTile();
+  }
 }
+
+//  Container(
+//             child: controller.menu.forEach(
+//             (element) => ListTile(
+//               title: Text(element.displayName),
+//               onTap: () {},
+//             ),
+//             ),
+//           )
+
+// ListView(
+//         scrollDirection: Axis.vertical,
+//         shrinkWrap: true,
+//         padding: EdgeInsets.zero,
+//         children: <Widget>[
+//           DrawerHeader(
+//             child: Align(
+//               alignment: Alignment.topLeft,
+//               child: Icon(Icons.supervised_user_circle,
+//                   size: 50, color: BrewConstants.white),
+//             ),
+//             decoration: BoxDecoration(
+//               color: BrewConstants.pulseBlue,
+//             ),
+//           ),
+//         ],
+//       ),

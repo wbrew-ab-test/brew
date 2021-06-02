@@ -14,8 +14,13 @@ class MenuController extends GetxController {
     await appMenu.then((menu) {
       MenuResponse obj = MenuResponse.fromJson(menu.body);
       this.menu = obj.data[0].sidebarnav;
-      logger.d('menu : ' + obj.data[0].sidebarnav[0].displayName);
       update();
+      if (this.menu != null) {
+        // logger.d('menu : ' + this.menu.toString());
+        this.menu!.forEach((element) {
+          logger.d(element.displayName);
+        });
+      }
     });
   }
 
