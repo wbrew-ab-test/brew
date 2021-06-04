@@ -1,6 +1,7 @@
 import 'package:brew/helper/platforminfo.dart';
 import 'package:brew/views/common/commonviews.dart';
 import 'package:brew/views/menu/brewmenu.dart';
+import 'package:brew/views/video/webVideoContainer.dart';
 import 'package:flutter/material.dart';
 
 class BrewDashboard extends StatelessWidget {
@@ -11,6 +12,16 @@ class BrewDashboard extends StatelessWidget {
     return Scaffold(
         appBar: CommonViews.getAppBar('Dashboard'),
         drawer: BrewMenu(),
-        body: PlatformInfo.isWeb() ? Text('Desktop!') : Text('Mobile'));
+        body: PlatformInfo.isWeb()
+            ? Center(
+                child: Container(
+                  // child: VideoView(),
+                  child: WebVideoContainer(),
+                ),
+              )
+            : Container(
+                // child: VideoView(),
+                child: WebVideoContainer(),
+              ));
   }
 }
