@@ -13,12 +13,9 @@ class Brew extends StatelessWidget {
       initialRoute: '/',
       initialBinding: BrewBind(),
       getPages: [
-        GetPage(name: '/', page: () => BrewLogin(), binding: BrewBind()),
-        GetPage(name: '/signup', page: () => BrewSignup(), binding: BrewBind()),
-        GetPage(
-            name: '/dashboard',
-            page: () => BrewDashboard(),
-            binding: BrewBind())
+        GetPage(name: '/', page: () => BrewLogin()),
+        GetPage(name: '/signup', page: () => BrewSignup()),
+        GetPage(name: '/dashboard', page: () => BrewDashboard())
       ],
     );
   }

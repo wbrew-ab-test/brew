@@ -172,7 +172,7 @@ class LoginViews {
           padding: EdgeInsets.fromLTRB(10, 40, 10, 10),
           alignment: Alignment.center,
           child: new Form(
-            key: controller.loginFormKey,
+            key: LoginController.loginFormKey,
             child: ListView(
               children: <Widget>[
                 CommonViews.pageTitle(context, BrewConstants.pulse),

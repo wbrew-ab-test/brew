@@ -7,10 +7,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get/get.dart';
+import 'package:get/state_manager.dart';
 import 'package:local_auth/local_auth.dart';
 
 class LoginController extends GetxController {
-  GlobalKey<FormState> loginFormKey = GlobalKey<FormState>();
+  static late GlobalKey<FormState> loginFormKey;
   TextEditingController nameController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   RxInt loginSuccess = 0.obs;
@@ -20,6 +21,13 @@ class LoginController extends GetxController {
   final LocalAuthentication auth = LocalAuthentication();
   @override
   void onInit() {
+    logger.d(
+        '******************** Inside the onInit of LOGIN CONTROLLER ***************');
+    // Get.lazyPut(() => UserAuthService());
+    // Get.put(() => UserAuthService());
+    loginFormKey = GlobalKey<FormState>();
+
+    // loginFormKey = GlobalKey<FormState>();
     nameController.text = '';
     // isFaceID = PlatformInfo.isIOS() || PlatformInfo.isAndroid() ? true : false;
     super.onInit();
@@ -114,11 +122,23 @@ class LoginController extends GetxController {
 
   @override
   void onClose() {
-    nameController.dispose();
-    passwordController.dispose();
+    logger.d(
+        '*********************************** CLOSE IS GETTING INVOKED **********************************');
+    // nameController.dispose();
+    // passwordController.dispose();
+    // loginFormKey.
     super.onClose();
     super.dispose();
   }
+
+  // @override
+  // void dispose() {
+  //   logger.d(
+  //       '*********************************** CLOSE IS GETTING DISPOSE **********************************');
+  //   nameController.dispose();
+  //   passwordController.dispose();
+  //   super.dispose();
+  // }
 
   void authenticate(String email, String password, bool isBio) async {
     logger.d('Login Controller authenticate method : ' +
