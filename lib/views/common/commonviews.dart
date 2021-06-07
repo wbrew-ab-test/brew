@@ -145,7 +145,16 @@ class CommonViews {
     );
   }
 
-  static ListTile listMenu(MenuController controller) {
-    return new ListTile();
+  static Row error(String errorMessage) {
+    return new Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: <Widget>[
+        Text(
+          (null != errorMessage) ? errorMessage : 'Error Occurred',
+          textAlign: TextAlign.center,
+          style: TextStyle(color: Colors.red),
+        ),
+      ],
+    );
   }
 }

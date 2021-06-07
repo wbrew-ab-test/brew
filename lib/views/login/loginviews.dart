@@ -187,6 +187,12 @@ class LoginViews {
                     true),
                 nonDesktopView(controller, context),
                 loginButton(context, controller),
+                GetBuilder<LoginController>(
+                  init: LoginController(),
+                  builder: (controller) => controller.loginSuccess.toInt() == 0
+                      ? CommonViews.error('Authentication Failed ! Try Again.')
+                      : Container(),
+                ),
                 forgotPassword(),
                 signupContainer(context),
               ],

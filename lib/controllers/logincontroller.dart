@@ -14,7 +14,7 @@ class LoginController extends GetxController {
   static late GlobalKey<FormState> loginFormKey;
   TextEditingController nameController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
-  RxInt loginSuccess = 0.obs;
+  RxInt loginSuccess = 1.obs;
   bool isFaceID =
       (PlatformInfo.isIOS() || PlatformInfo.isAndroid()) ? true : false;
   final FlutterSecureStorage storage = FlutterSecureStorage();
@@ -102,12 +102,16 @@ class LoginController extends GetxController {
           Get.find<UserAuthService>().authenticateUser(request, true);
 
       await userProfile.then((responseObj) {
-        logger.d("Status Code : " + responseObj.body.toString());
-        if (responseObj.statusCode == 200) {
+        logger.d("d Status Code : " + responseObj.body.toString());
+        if (responseObj.statusCode == 200 || responseObj.statusCode == 201) {
           BrewProfile obj = BrewProfile.fromJson(responseObj.body);
           loginSuccessChange();
 
           logger.d('val : ' + loginSuccess.obs.value.toString());
+        } else {
+          logger.d("error Status Code : " + responseObj.body.toString());
+          loginSuccess = 0.obs;
+          update();
         }
       });
     }
