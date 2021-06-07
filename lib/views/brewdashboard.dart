@@ -21,13 +21,16 @@ class BrewDashboard extends StatelessWidget {
                 child: Row(
                   children: [
                     Expanded(
-                      flex: 1,
+                      flex: width > 767 ? 2 : 1,
                       child: Container(
                         child: WebVideoContainer(
                           videoUrl: url,
                         ),
                       ),
                     ),
+                    width > 767
+                        ? Expanded(flex: 1, child: CommonViews.mockedList())
+                        : Container(),
                   ],
                 ),
               ),
@@ -52,30 +55,3 @@ class BrewDashboard extends StatelessWidget {
     );
   }
 }
-// Row(children: <Widget>[])
-// width > 767
-//                     ? Expanded(
-//                         flex: 1,
-//                         child: Container(
-//                           child: Text('TEST'),
-//                         ),
-//                       )
-//                     : Container(),
-//                 Expanded(
-//                   flex: width > 767 ? 2 : 1,
-//                   child: Container(
-//                     height: 600,
-//                     color: Colors.black,
-//                     child: WebVideoContainer(
-//                       videoUrl: url,
-//                     ),
-//                   ),
-//                 ),
-//                 width > 767
-//                     ? Expanded(
-//                         flex: 1,
-//                         child: Container(
-//                           child: Text('TEST'),
-//                         ),
-//                       )
-//                     : Container(),

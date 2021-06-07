@@ -157,4 +157,175 @@ class CommonViews {
       ],
     );
   }
+
+  static Container richVideoBar() {
+    return Container(
+      decoration: BoxDecoration(
+          gradient: LinearGradient(
+              begin: Alignment.centerLeft,
+              end: Alignment.centerRight,
+              colors: [BrewConstants.white, BrewConstants.pulseBlue])),
+      child: Container(
+        padding: const EdgeInsets.all(8.0),
+        // color: Colors.grey,
+        decoration: BoxDecoration(
+          border: Border(
+            top: BorderSide(width: 0.0),
+            left: BorderSide(width: 1.0, color: BrewConstants.black54),
+            right: BorderSide(width: 1.0, color: BrewConstants.black54),
+            bottom: BorderSide(width: 1.0, color: BrewConstants.black54),
+          ),
+        ),
+        child: RichText(
+          text: TextSpan(
+            text: 'Video for Introduction.',
+            style: TextStyle(
+                color: Colors.black, fontSize: 18, fontWeight: FontWeight.bold),
+            children: [
+              //   WidgetSpan(
+              //     alignment: PlaceholderAlignment.middle,
+              //     child: Icon(
+              //       Icons.circle,
+              //       size: 18,
+              //       color: Colors.blue.shade400,
+              //     ),
+              //   ),
+              //   WidgetSpan(
+              //     child: Icon(
+              //       Icons.circle,
+              //       size: 18,
+              //       color: Colors.blue.shade400,
+              //     ),
+              //   ),
+              //   WidgetSpan(
+              //     child: Icon(
+              //       Icons.circle,
+              //       size: 18,
+              //       color: Colors.blue.shade400,
+              //     ),
+              //   ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  static ListView mockedList() {
+    return ListView(
+      padding: const EdgeInsets.all(0.0),
+      children: <Widget>[
+        Container(
+          height: 50,
+          color: Colors.grey[100],
+          child: const Center(child: Text('Entry A')),
+        ),
+        Container(
+          height: 50,
+          color: Colors.grey[100],
+          child: const Center(child: Text('Entry B')),
+        ),
+        Container(
+          height: 50,
+          color: Colors.grey[100],
+          child: const Center(child: Text('Entry A')),
+        ),
+        Container(
+          height: 50,
+          color: Colors.grey[100],
+          child: const Center(child: Text('Entry B')),
+        ),
+        Container(
+          height: 50,
+          color: Colors.grey[100],
+          child: const Center(child: Text('Entry A')),
+        ),
+        Container(
+          height: 50,
+          color: Colors.grey[100],
+          child: const Center(child: Text('Entry B')),
+        ),
+        Container(
+          height: 50,
+          color: Colors.grey[100],
+          child: const Center(child: Text('Entry A')),
+        ),
+        Container(
+          height: 50,
+          color: Colors.grey[100],
+          child: const Center(child: Text('Entry B')),
+        ),
+        Container(
+          height: 50,
+          color: Colors.grey[100],
+          child: const Center(child: Text('Entry A')),
+        ),
+        Container(
+          height: 50,
+          color: Colors.grey[100],
+          child: const Center(child: Text('Entry B')),
+        ),
+        Container(
+          height: 50,
+          color: Colors.grey[100],
+          child: const Center(child: Text('Entry A')),
+        ),
+        Container(
+          height: 50,
+          color: Colors.grey[100],
+          child: const Center(child: Text('Entry B')),
+        ),
+        Container(
+          height: 50,
+          color: Colors.grey[100],
+          child: const Center(child: Text('Entry A')),
+        ),
+        Container(
+          height: 50,
+          color: Colors.grey[100],
+          child: const Center(child: Text('Entry B')),
+        ),
+        Container(
+          height: 50,
+          color: Colors.grey[100],
+          child: const Center(child: Text('Entry A')),
+        ),
+        Container(
+          height: 50,
+          color: Colors.grey[100],
+          child: const Center(child: Text('Entry B')),
+        ),
+        Container(
+          height: 50,
+          color: Colors.grey[100],
+          child: const Center(child: Text('Entry A')),
+        ),
+        Container(
+          height: 50,
+          color: Colors.grey[100],
+          child: const Center(child: Text('Entry B')),
+        ),
+        Container(
+          height: 50,
+          color: Colors.grey[100],
+          child: const Center(child: Text('Entry A')),
+        ),
+        Container(
+          height: 50,
+          color: Colors.grey[100],
+          child: const Center(child: Text('Entry B')),
+        ),
+        Container(
+          height: 50,
+          color: Colors.grey[100],
+          child: const Center(child: Text('Entry A')),
+        ),
+        Container(
+          height: 50,
+          color: Colors.grey[100],
+          child: const Center(child: Text('Entry B')),
+        ),
+      ],
+    );
+  }
 }
