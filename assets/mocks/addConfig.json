@@ -1,0 +1,24 @@
+{
+	"sidebarnav": [
+		{
+			"navId": "profile",
+			"displayName": "Profile"
+		},
+		{
+			"navId": "dashboard",
+			"displayName": "Dashboard"
+		},
+		{
+			"navId": "plans",
+			"displayName": "Plans"
+		},
+		{
+			"navId": "mocks",
+			"displayName": "Free Mocks"
+		},
+		{
+			"navId": "signout",
+			"displayName": "Sign Out"
+		}
+	]
+}

@@ -7,21 +7,75 @@ import 'package:flutter/material.dart';
 class BrewDashboard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final double width = (MediaQuery.of(context).size.width * 1);
     FocusNode node = new FocusNode();
-
+    String url =
+        'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4';
     return Scaffold(
-        appBar: CommonViews.getAppBar('Dashboard'),
-        drawer: BrewMenu(),
-        body: PlatformInfo.isWeb()
-            ? Center(
-                child: Container(
-                  // child: VideoView(),
-                  child: WebVideoContainer(),
+      appBar: CommonViews.getAppBar('Dashboard'),
+      drawer: BrewMenu(),
+      body: PlatformInfo.isWeb()
+          ? Container(
+              color: Colors.white,
+              child: Container(
+                child: Row(
+                  children: [
+                    Expanded(
+                      flex: 1,
+                      child: Container(
+                        child: WebVideoContainer(
+                          videoUrl: url,
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
-              )
-            : Container(
-                // child: VideoView(),
-                child: WebVideoContainer(),
-              ));
+              ),
+            )
+          : Container(
+              color: Colors.white,
+              child: Container(
+                child: Row(
+                  children: [
+                    Expanded(
+                      flex: 1,
+                      child: Container(
+                        child: WebVideoContainer(
+                          videoUrl: url,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+    );
   }
 }
+// Row(children: <Widget>[])
+// width > 767
+//                     ? Expanded(
+//                         flex: 1,
+//                         child: Container(
+//                           child: Text('TEST'),
+//                         ),
+//                       )
+//                     : Container(),
+//                 Expanded(
+//                   flex: width > 767 ? 2 : 1,
+//                   child: Container(
+//                     height: 600,
+//                     color: Colors.black,
+//                     child: WebVideoContainer(
+//                       videoUrl: url,
+//                     ),
+//                   ),
+//                 ),
+//                 width > 767
+//                     ? Expanded(
+//                         flex: 1,
+//                         child: Container(
+//                           child: Text('TEST'),
+//                         ),
+//                       )
+//                     : Container(),
