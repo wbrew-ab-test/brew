@@ -46,10 +46,12 @@ class BrewConstants {
       'https://identitytoolkit.googleapis.com/v1/accounts:update?key=';
   static final String userLookupUrl =
       'https://identitytoolkit.googleapis.com/v1/accounts:lookup?key=';
-  // static final String menuUrl =
-  //     'http://192.168.1.13:5001/ng-course-recipe-book-2d135/us-central1/pulse/fetchMenuConfig';
   static final String menuUrl =
-      'http://192.168.1.9:5001/ng-course-recipe-book-2d135/us-central1/pulse/fetchMenuConfig';
+      'http://192.168.1.6:5001/ng-course-recipe-book-2d135/us-central1/pulse/fetchMenuConfig';
+  static final String fetchVideosUrl =
+      "http://192.168.1.6:5001/ng-course-recipe-book-2d135/us-central1/pulseVideos/fetchVideos";
+  // static final String menuUrl =
+  //     'http://192.168.1.9:5001/ng-course-recipe-book-2d135/us-central1/pulse/fetchMenuConfig';
   static final String httpKey = 'AIzaSyAlVsNtAQuS1uKtUnzapmMu3ZjkujecQsg';
 
   // Login Screen Error Messages

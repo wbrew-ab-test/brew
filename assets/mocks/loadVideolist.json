@@ -1,19 +1,64 @@
  {
 		"videolist" : [
 			{
-				"videoid": "Introduction",
-				"title": "",
-				"videourl": ""
+				"videoid": "introduction",
+				"title": "Introduction Video",
+				"subtitle": "",
+				"videourl": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4"
 			},
 			{
-				"videoid": "Fundamentals",
-				"title": "",
-				"videourl": ""
+				"videoid": "fundamentalspeach",
+				"title": "Fundamental of Speech",
+				"subtitle": "",
+				"videourl": "https://www.learningcontainer.com/wp-content/uploads/2020/05/sample-mp4-file.mp4"
 			},
 			{
-				"videoid": "TestVideo",
-				"title": "",
-				"videourl": ""
+				"videoid": "fundamentalistening",
+				"title": "Fundamental of Listening",
+				"subtitle": "",
+				"videourl": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4"
+			},
+			{
+				"videoid": "fundamentalwriting",
+				"title": "Fundamental of Writing",
+				"subtitle": "",
+				"videourl": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4"
+			},
+			{
+				"videoid": "conceptsspeach",
+				"title": "Concepts of Speech",
+				"subtitle": "",
+				"videourl": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4"
+			},
+			{
+				"videoid": "conceptslistening",
+				"title": "Concepts of Listening",
+				"subtitle": "",
+				"videourl": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4"
+			},
+			{
+				"videoid": "conceptswriting",
+				"title": "Concepts of Writing",
+				"subtitle": "",
+				"videourl": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4"
+			},
+			{
+				"videoid": "formulatespeaking",
+				"title": "Formulate of Speaking",
+				"subtitle": "",
+				"videourl": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4"
+			},
+			{
+				"videoid": "formulatelistening",
+				"title": "Formulate of Listening",
+				"subtitle": "",
+				"videourl": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4"
+			},
+			{
+				"videoid": "formulatewriting",
+				"title": "Formulate of Writing",
+				"subtitle": "",
+				"videourl": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4"
 			}
 		]
 	}

@@ -1,9 +1,12 @@
 import 'package:brew/constants/brewconstants.dart';
 import 'package:brew/controllers/menucontroller.dart';
+import 'package:brew/controllers/videoscontroller.dart';
 import 'package:brew/helper/modedetector.dart';
 import 'package:brew/logger/brewlogger.dart';
+import 'package:brew/models/video/videoleaf.dart';
 import 'package:brew/views/brewlogin.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:get/get.dart';
 
 class CommonViews {
@@ -158,8 +161,9 @@ class CommonViews {
     );
   }
 
-  static Container richVideoBar() {
+  static Container richVideoBar(String title) {
     return Container(
+      width: double.infinity,
       decoration: BoxDecoration(
           gradient: LinearGradient(
               begin: Alignment.centerLeft,
@@ -178,7 +182,7 @@ class CommonViews {
         ),
         child: RichText(
           text: TextSpan(
-            text: 'Video for Introduction.',
+            text: title,
             style: TextStyle(
                 color: Colors.black, fontSize: 18, fontWeight: FontWeight.bold),
             children: [
@@ -211,119 +215,156 @@ class CommonViews {
     );
   }
 
+  static ListView videoList(
+      VideosController controller, List<Videoleaf>? videolist) {
+    final List<Videoleaf>? items = videolist;
+    return ListView.builder(
+        shrinkWrap: true,
+        scrollDirection: Axis.vertical,
+        padding: const EdgeInsets.all(0.0),
+        itemCount: items!.length,
+        itemBuilder: (context, index) {
+          final Videoleaf item = items[index];
+          return Card(
+            child: ListTile(
+              title: Text(
+                item.title,
+                style: TextStyle(
+                    color: BrewConstants.black87, fontWeight: FontWeight.bold),
+              ),
+              trailing: Icon(Icons.more_vert),
+              onTap: () {
+                logger.d('item.videourl : ' + item.videourl);
+                controller.index = index;
+                controller.videoleaf = controller.videolist![index];
+                // controller.dispose();
+                controller.update();
+              },
+            ),
+          );
+        });
+  }
+
   static ListView mockedList() {
     return ListView(
+      // scrollDirection: Axis.vertical,
+      shrinkWrap: true,
       padding: const EdgeInsets.all(0.0),
       children: <Widget>[
-        Container(
-          height: 50,
-          color: Colors.grey[100],
-          child: const Center(child: Text('Entry A')),
+        Card(
+          // color: Colors.grey[100],
+          child: ListTile(
+            title: Text('Entry A'),
+            trailing: Icon(Icons.more_vert),
+            onTap: () {
+              logger.d('Testing the tabs');
+            },
+          ),
         ),
-        Container(
-          height: 50,
-          color: Colors.grey[100],
-          child: const Center(child: Text('Entry B')),
+        Card(
+          // color: Colors.grey[100],
+          child: const ListTile(
+            title: Text('Entry B'),
+            trailing: Icon(Icons.more_vert),
+          ),
         ),
-        Container(
-          height: 50,
-          color: Colors.grey[100],
-          child: const Center(child: Text('Entry A')),
+        Card(
+          // color: Colors.grey[100],
+          child: const ListTile(
+            title: Text('Entry A'),
+            trailing: Icon(Icons.more_vert),
+          ),
         ),
-        Container(
-          height: 50,
-          color: Colors.grey[100],
-          child: const Center(child: Text('Entry B')),
+        Card(
+          // color: Colors.grey[100],
+          child: const ListTile(
+            title: Text('Entry B'),
+            trailing: Icon(Icons.more_vert),
+          ),
         ),
-        Container(
-          height: 50,
-          color: Colors.grey[100],
-          child: const Center(child: Text('Entry A')),
+        Card(
+          // color: Colors.grey[100],
+          child: const ListTile(
+            title: Text('Entry A'),
+            trailing: Icon(Icons.more_vert),
+          ),
         ),
-        Container(
-          height: 50,
-          color: Colors.grey[100],
-          child: const Center(child: Text('Entry B')),
+        Card(
+          // color: Colors.grey[100],
+          child: const ListTile(
+            title: Text('Entry B'),
+            trailing: Icon(Icons.more_vert),
+          ),
         ),
-        Container(
-          height: 50,
-          color: Colors.grey[100],
-          child: const Center(child: Text('Entry A')),
+        Card(
+          // color: Colors.grey[100],
+          child: const ListTile(
+            title: Text('Entry A'),
+            trailing: Icon(Icons.more_vert),
+          ),
         ),
-        Container(
-          height: 50,
-          color: Colors.grey[100],
-          child: const Center(child: Text('Entry B')),
+        Card(
+          // color: Colors.grey[100],
+          child: const ListTile(
+            title: Text('Entry B'),
+            trailing: Icon(Icons.more_vert),
+          ),
         ),
-        Container(
-          height: 50,
-          color: Colors.grey[100],
-          child: const Center(child: Text('Entry A')),
+        Card(
+          // color: Colors.grey[100],
+          child: const ListTile(
+            title: Text('Entry A'),
+            trailing: Icon(Icons.more_vert),
+          ),
         ),
-        Container(
-          height: 50,
-          color: Colors.grey[100],
-          child: const Center(child: Text('Entry B')),
+        Card(
+          // color: Colors.grey[100],
+          child: const ListTile(
+            title: Text('Entry B'),
+            trailing: Icon(Icons.more_vert),
+          ),
         ),
-        Container(
-          height: 50,
-          color: Colors.grey[100],
-          child: const Center(child: Text('Entry A')),
+        Card(
+          // color: Colors.grey[100],
+          child: const ListTile(
+            title: Text('Entry A'),
+            trailing: Icon(Icons.more_vert),
+          ),
         ),
-        Container(
-          height: 50,
-          color: Colors.grey[100],
-          child: const Center(child: Text('Entry B')),
+        Card(
+          // color: Colors.grey[100],
+          child: const ListTile(
+            title: Text('Entry B'),
+            trailing: Icon(Icons.more_vert),
+          ),
         ),
-        Container(
-          height: 50,
-          color: Colors.grey[100],
-          child: const Center(child: Text('Entry A')),
+        Card(
+          // color: Colors.grey[100],
+          child: const ListTile(
+            title: Text('Entry A'),
+            trailing: Icon(Icons.more_vert),
+          ),
         ),
-        Container(
-          height: 50,
-          color: Colors.grey[100],
-          child: const Center(child: Text('Entry B')),
+        Card(
+          // color: Colors.grey[100],
+          child: const ListTile(
+            title: Text('Entry B'),
+            trailing: Icon(Icons.more_vert),
+          ),
         ),
-        Container(
-          height: 50,
-          color: Colors.grey[100],
-          child: const Center(child: Text('Entry A')),
+        Card(
+          // color: Colors.grey[100],
+          child: const ListTile(
+            title: Text('Entry A'),
+            trailing: Icon(Icons.more_vert),
+          ),
         ),
-        Container(
-          height: 50,
-          color: Colors.grey[100],
-          child: const Center(child: Text('Entry B')),
-        ),
-        Container(
-          height: 50,
-          color: Colors.grey[100],
-          child: const Center(child: Text('Entry A')),
-        ),
-        Container(
-          height: 50,
-          color: Colors.grey[100],
-          child: const Center(child: Text('Entry B')),
-        ),
-        Container(
-          height: 50,
-          color: Colors.grey[100],
-          child: const Center(child: Text('Entry A')),
-        ),
-        Container(
-          height: 50,
-          color: Colors.grey[100],
-          child: const Center(child: Text('Entry B')),
-        ),
-        Container(
-          height: 50,
-          color: Colors.grey[100],
-          child: const Center(child: Text('Entry A')),
-        ),
-        Container(
-          height: 50,
-          color: Colors.grey[100],
-          child: const Center(child: Text('Entry B')),
+        Card(
+          // color: Colors.grey[100],
+          child: const ListTile(
+            title: Text('Entry B'),
+            trailing: Icon(Icons.more_vert),
+          ),
         ),
       ],
     );
