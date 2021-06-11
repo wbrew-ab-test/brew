@@ -1,7 +1,7 @@
 import 'package:brew/logger/brewlogger.dart';
+import 'package:brew/models/profile/profile.dart';
 import 'package:brew/models/usersignuprequest.dart';
 import 'package:brew/services/userauthservice.dart';
-import 'package:brew/views/brewlogin.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -13,7 +13,7 @@ class SignupController extends GetxController {
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   TextEditingController confirmPasswordController = TextEditingController();
-  var registrationSuccessful = 0.obs;
+  RxInt registrationSuccessful = 1.obs;
   late Worker _ever;
 
   @override
@@ -52,12 +52,33 @@ class SignupController extends GetxController {
       await registerationResponse.then((response) {
         logger.d("Status Code : " + response.body.toString());
 
-        if (response.statusCode == 200) {
+        if (response.statusCode == 200 || response.statusCode == 201) {
           logger.i('Successful registration.');
-          setRegistrationSuccessful();
-          logger.d('setRegistrationSuccessful');
-          update([setRegistrationSuccessful], true);
-          Get.back();
+
+          Profile userProfile = new Profile(
+              email: emailController.text,
+              firstName: firstNameController.text,
+              lastName: lastNameController.text,
+              displayName: displayNameController.text,
+              persona: 'student');
+          logger.d('profile : ' + userProfile.toString());
+          late Future<Response> profileOject =
+              Get.find<UserAuthService>().registerUserInsideBrew(userProfile);
+          profileOject.then((profileResponse) {
+            logger.d('profileResponse : ' + profileResponse.body.toString());
+            setRegistrationSuccessful();
+            logger.d('setRegistrationSuccessful');
+            update([setRegistrationSuccessful], true);
+            Get.back();
+          });
+        } else if (response.statusCode == 400) {
+          logger.d("BAD REQUEST");
+          this.registrationSuccessful = 0.obs;
+          // loginSuccess = 0.obs;
+          update();
+        } else {
+          logger.d("response.statusCode : " + response.body.toString());
+          this.registrationSuccessful = 0.obs;
         }
       });
     }

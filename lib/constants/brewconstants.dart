@@ -10,11 +10,13 @@ class BrewConstants {
   static final String viewTimelineTitle = 'Timeline';
   static final String timelineLogin = 'Timeline';
   static final String pulse = 'Pulse';
-  static final String signIn = 'Sign In';
+  static final String student = 'Student';
+  static final String mentor = 'Mentor';
+  static final String or = "or";
   static final String userName = 'User Name / Email';
   static final String password = 'Password';
   static final String forgotPassword = 'Forgot Password';
-  static final String doYouHaveAccount = 'Does not have account?';
+  static final String doYouHaveAccount = 'Sign In as ';
   static final String alreadyAccount = 'You already have account?';
   static final String login = 'Login';
 
@@ -50,6 +52,9 @@ class BrewConstants {
       'http://192.168.1.6:5001/ng-course-recipe-book-2d135/us-central1/pulse/fetchMenuConfig';
   static final String fetchVideosUrl =
       "http://192.168.1.6:5001/ng-course-recipe-book-2d135/us-central1/pulseVideos/fetchVideos";
+
+  static final String signBrewUpUrl =
+      "http://192.168.1.6:5001/ng-course-recipe-book-2d135/us-central1/user/addProfile";
   // static final String menuUrl =
   //     'http://192.168.1.9:5001/ng-course-recipe-book-2d135/us-central1/pulse/fetchMenuConfig';
   static final String httpKey = 'AIzaSyAlVsNtAQuS1uKtUnzapmMu3ZjkujecQsg';

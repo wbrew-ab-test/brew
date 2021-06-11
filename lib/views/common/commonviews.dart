@@ -1,5 +1,6 @@
 import 'package:brew/constants/brewconstants.dart';
 import 'package:brew/controllers/menucontroller.dart';
+import 'package:brew/controllers/signupmentorcontroller.dart';
 import 'package:brew/controllers/videoscontroller.dart';
 import 'package:brew/helper/modedetector.dart';
 import 'package:brew/logger/brewlogger.dart';
@@ -135,6 +136,11 @@ class CommonViews {
                           Get.back();
                           Get.back();
                           break;
+                        case 'profile':
+                          Get.toNamed('/profile');
+                          break;
+                        case 'nest':
+                          Get.toNamed('/dashboard');
                       }
                     },
                   ),
@@ -220,6 +226,7 @@ class CommonViews {
     final List<Videoleaf>? items = videolist;
     return ListView.builder(
         shrinkWrap: true,
+        physics: NeverScrollableScrollPhysics(),
         scrollDirection: Axis.vertical,
         padding: const EdgeInsets.all(0.0),
         itemCount: items!.length,
@@ -232,6 +239,7 @@ class CommonViews {
                 style: TextStyle(
                     color: BrewConstants.black87, fontWeight: FontWeight.bold),
               ),
+              subtitle: Text(item.subtitle),
               trailing: Icon(Icons.more_vert),
               onTap: () {
                 logger.d('item.videourl : ' + item.videourl);
@@ -367,6 +375,51 @@ class CommonViews {
           ),
         ),
       ],
+    );
+  }
+
+  static TextButton buttonRoute(
+    String label,
+    String route,
+    double fontSize,
+  ) {
+    return TextButton(
+      onPressed: () {
+        Get.toNamed(route);
+      },
+      child: Text(
+        label,
+        style: TextStyle(
+          fontSize: fontSize,
+          color: BrewConstants.pulseBlue,
+        ),
+      ),
+    );
+  }
+
+  static dynamic brewDropdown() {
+    return GetBuilder(
+      init: SignupMentorController(),
+      builder: (SignupMentorController controller) => Container(
+        padding: EdgeInsets.all(10.0),
+        child: DropdownButtonFormField<String>(
+          decoration: InputDecoration(
+            enabledBorder: OutlineInputBorder(
+                borderSide: BorderSide(color: BrewConstants.pulseBlue)),
+          ),
+          hint: Text('Language'),
+          value: controller.selectedValue,
+          onChanged: (newValue) {
+            controller.onSelected(newValue!);
+          },
+          items: controller.experience.map((String value) {
+            return DropdownMenuItem<String>(
+              value: value,
+              child: new Text(value),
+            );
+          }).toList(),
+        ),
+      ),
     );
   }
 }

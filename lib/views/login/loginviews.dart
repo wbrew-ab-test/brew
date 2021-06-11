@@ -141,22 +141,15 @@ class LoginViews {
                     ? BrewConstants.white70
                     : BrewConstants.black87),
           ),
-          FlatButton(
-            padding: EdgeInsets.zero,
-            onPressed: () {
-              Get.toNamed('/signup');
-            },
-            child: Padding(
-              padding: EdgeInsets.zero,
-              child: Text(
-                BrewConstants.signIn,
-                style: TextStyle(
-                  fontSize: 18,
-                  color: BrewConstants.pulseBlue,
-                ),
-              ),
-            ),
+          CommonViews.buttonRoute(BrewConstants.student, '/signup', 14),
+          Text(
+            BrewConstants.or,
+            style: TextStyle(
+                color: ModeDetector.isDarkMode(context)
+                    ? BrewConstants.white70
+                    : BrewConstants.black87),
           ),
+          CommonViews.buttonRoute(BrewConstants.mentor, '/mentorSignup', 14),
         ],
         mainAxisAlignment: MainAxisAlignment.center,
       ),

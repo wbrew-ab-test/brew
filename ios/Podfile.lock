@@ -1,18 +1,8 @@
 PODS:
-  - better_player (0.0.1):
-    - Flutter
-    - KTVHTTPCache (~> 2.0.0)
-  - CocoaAsyncSocket (7.6.5)
   - Flutter (1.0.0)
   - flutter_secure_storage (3.3.1):
     - Flutter
-  - KTVCocoaHTTPServer (1.0.0):
-    - CocoaAsyncSocket
-  - KTVHTTPCache (2.0.1):
-    - KTVCocoaHTTPServer
   - local_auth (0.0.1):
-    - Flutter
-  - path_provider (0.0.1):
     - Flutter
   - shared_preferences (0.0.1):
     - Flutter
@@ -22,32 +12,20 @@ PODS:
     - Flutter
 
 DEPENDENCIES:
-  - better_player (from `.symlinks/plugins/better_player/ios`)
   - Flutter (from `Flutter`)
   - flutter_secure_storage (from `.symlinks/plugins/flutter_secure_storage/ios`)
   - local_auth (from `.symlinks/plugins/local_auth/ios`)
-  - path_provider (from `.symlinks/plugins/path_provider/ios`)
   - shared_preferences (from `.symlinks/plugins/shared_preferences/ios`)
   - video_player (from `.symlinks/plugins/video_player/ios`)
   - wakelock (from `.symlinks/plugins/wakelock/ios`)
 
-SPEC REPOS:
-  trunk:
-    - CocoaAsyncSocket
-    - KTVCocoaHTTPServer
-    - KTVHTTPCache
-
 EXTERNAL SOURCES:
-  better_player:
-    :path: ".symlinks/plugins/better_player/ios"
   Flutter:
     :path: Flutter
   flutter_secure_storage:
     :path: ".symlinks/plugins/flutter_secure_storage/ios"
   local_auth:
     :path: ".symlinks/plugins/local_auth/ios"
-  path_provider:
-    :path: ".symlinks/plugins/path_provider/ios"
   shared_preferences:
     :path: ".symlinks/plugins/shared_preferences/ios"
   video_player:
@@ -56,14 +34,9 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/wakelock/ios"
 
 SPEC CHECKSUMS:
-  better_player: a4383402f457e53720525888c0fc5d337ef6ba11
-  CocoaAsyncSocket: 065fd1e645c7abab64f7a6a2007a48038fdc6a99
   Flutter: 434fef37c0980e73bb6479ef766c45957d4b510c
   flutter_secure_storage: 7953c38a04c3fdbb00571bcd87d8e3b5ceb9daec
-  KTVCocoaHTTPServer: df8d7b861e603ff8037e9b2138aca2563a6b768d
-  KTVHTTPCache: 588c3eb16f6bd1e6fde1e230dabfb7bd4e490a4d
   local_auth: 25938960984c3a7f6e3253e3f8d962fdd16852bd
-  path_provider: abfe2b5c733d04e238b0d8691db0cfd63a27a93c
   shared_preferences: af6bfa751691cdc24be3045c43ec037377ada40d
   video_player: 9cc823b1d9da7e8427ee591e8438bfbcde500e6e
   wakelock: d0fc7c864128eac40eba1617cb5264d9c940b46f

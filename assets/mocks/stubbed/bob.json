@@ -1,0 +1,85 @@
+{
+  "email": "bob@gmail.com",
+  "firstName": "Bob",
+  "lastName": "Brown",
+  "displayName": "Brown",
+  "profilePicture": "",
+  "persona": "student",
+  "dateOfBirth": "",
+  "enrolledPlan": "",
+  "currentBand": "",
+  "desiredBand": "",
+  "desiredSlotTime": "",
+  "tutor": [
+    {
+      "speaking": [
+        {
+          "tutorid": "",
+          "active": "",
+          "startdate": "",
+          "enddate": ""
+        }
+      ],
+      "listening": [
+        {
+          "tutorid": "",
+          "active": "",
+          "startdate": "",
+          "enddate": ""
+        }
+      ],
+      "reading": [
+        {
+          "tutorid": "",
+          "active": "",
+          "startDate": "",
+          "endDate": ""
+        }
+      ],
+      "writing": [
+        {
+          "tutorid": "",
+          "active": "",
+          "startDate": "",
+          "endDate": ""
+        }
+      ]
+    }
+  ],
+  "mocks": {
+    "listening": {
+      "completed": ""
+    },
+    "speaking": {
+      "completed": ""
+    },
+    "reading": {
+      "completed": ""
+    },
+    "writing": {
+      "completed": ""
+    }
+  },
+  "enrolled": {
+    "listening": {
+      "totalHours": "",
+      "completedHours": "",
+      "pendingHours": ""
+    },
+    "speaking": {
+      "totalHours": "",
+      "completedHours": "",
+      "pendingHours": ""
+    },
+    "reading": {
+      "totalHours": "",
+      "completedHours": "",
+      "pendingHours": ""
+    },
+    "writing": {
+      "totalHours": "",
+      "completedHours": "",
+      "pendingHours": ""
+    }
+  }
+}

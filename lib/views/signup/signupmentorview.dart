@@ -1,14 +1,13 @@
 import 'package:brew/constants/brewconstants.dart';
-import 'package:brew/controllers/signupcontroller.dart';
+import 'package:brew/controllers/signupmentorcontroller.dart';
 import 'package:brew/helper/modedetector.dart';
 import 'package:brew/views/common/commonviews.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get_state_manager/get_state_manager.dart';
 import 'package:get/route_manager.dart';
 
-class SignupViews {
+class SignupMentorViews {
   static Container desktopView(
-      BuildContext context, FocusNode node, SignupController controller) {
+      BuildContext context, FocusNode node, SignupMentorController controller) {
     final double width = (MediaQuery.of(context).size.width * 1);
     return Container(
       color: ModeDetector.isDarkMode(context)
@@ -43,7 +42,7 @@ class SignupViews {
   }
 
   static Container mobileView(
-      BuildContext context, FocusNode node, SignupController controller) {
+      BuildContext context, FocusNode node, SignupMentorController controller) {
     return Container(
       color: ModeDetector.isDarkMode(context)
           ? BrewConstants.black87
@@ -62,6 +61,7 @@ class SignupViews {
             child: Row(
               children: <Widget>[
                 signupForm(context, node, controller),
+                // signupForm(context, node, controller),
               ],
             ),
           ),
@@ -70,17 +70,76 @@ class SignupViews {
     );
   }
 
-  static Container signupButton(SignupController controller) {
-    return Container(
-      height: 50,
-      padding: EdgeInsets.fromLTRB(10, 10, 10, 0),
-      child: RaisedButton(
-        textColor: BrewConstants.white,
-        color: BrewConstants.pulseBlue,
-        child: Text(BrewConstants.signUp),
-        onPressed: () {
-          controller.signup();
-        },
+  static Expanded signupForm(
+      BuildContext context, FocusNode node, SignupMentorController controller) {
+    return Expanded(
+      flex: 1,
+      child: Container(
+        // height: 100,
+        padding: EdgeInsets.fromLTRB(10, 40, 10, 10),
+        alignment: Alignment.center,
+        child: new Form(
+          key: controller.signupMentorFormKey,
+          child: ListView(
+            children: <Widget>[
+              CommonViews.pageTitle(context, BrewConstants.pulse),
+              CommonViews.textFieldControl(
+                  context,
+                  node,
+                  controller,
+                  controller.mentorFirstNameController,
+                  BrewConstants.firstName,
+                  false),
+              CommonViews.textFieldControl(
+                  context,
+                  node,
+                  controller,
+                  controller.mentorLastNameController,
+                  BrewConstants.lastName,
+                  false),
+              CommonViews.textFieldControl(
+                  context,
+                  node,
+                  controller,
+                  controller.mentorDisplayNameController,
+                  BrewConstants.displayName,
+                  false),
+              CommonViews.textFieldControl(
+                  context,
+                  node,
+                  controller,
+                  controller.mentorEmailController,
+                  BrewConstants.emailAddress,
+                  false),
+              CommonViews.textFieldControl(
+                  context,
+                  node,
+                  controller,
+                  controller.mentorPasswordController,
+                  BrewConstants.password,
+                  true),
+              CommonViews.textFieldControl(
+                  context,
+                  node,
+                  controller,
+                  controller.mentorConfirmPasswordController,
+                  BrewConstants.confirmPassword,
+                  true),
+              CommonViews.brewDropdown(),
+              signupButton(controller),
+              gotoLogin(context)
+              // // signupButton(controller),
+              // // GetBuilder<SignupController>(
+              // //   init: SignupController(),
+              // //   builder: (controller) =>
+              // //   controller.registrationSuccessful.toString() == '0'
+              // //       ? CommonViews.error('User Already Exist')
+              // //       : Container(),
+              // ),
+              // gotoLogin(context)
+            ],
+          ),
+        ),
       ),
     );
   }
@@ -111,63 +170,17 @@ class SignupViews {
     );
   }
 
-  static Expanded signupForm(
-      BuildContext context, FocusNode node, SignupController controller) {
-    return Expanded(
-      flex: 1,
-      child: Container(
-        // height: 100,
-        padding: EdgeInsets.fromLTRB(10, 40, 10, 10),
-        alignment: Alignment.center,
-        child: new Form(
-          key: controller.signupFormKey,
-          child: ListView(
-            children: <Widget>[
-              CommonViews.pageTitle(context, BrewConstants.pulse),
-              CommonViews.textFieldControl(
-                  context,
-                  node,
-                  controller,
-                  controller.firstNameController,
-                  BrewConstants.firstName,
-                  false),
-              CommonViews.textFieldControl(context, node, controller,
-                  controller.lastNameController, BrewConstants.lastName, false),
-              CommonViews.textFieldControl(
-                  context,
-                  node,
-                  controller,
-                  controller.displayNameController,
-                  BrewConstants.displayName,
-                  false),
-              CommonViews.textFieldControl(
-                  context,
-                  node,
-                  controller,
-                  controller.emailController,
-                  BrewConstants.emailAddress,
-                  false),
-              CommonViews.textFieldControl(context, node, controller,
-                  controller.passwordController, BrewConstants.password, true),
-              CommonViews.textFieldControl(
-                  context,
-                  node,
-                  controller,
-                  controller.confirmPasswordController,
-                  BrewConstants.confirmPassword,
-                  true),
-              signupButton(controller),
-              GetBuilder<SignupController>(
-                init: SignupController(),
-                builder: (controller) =>
-                    controller.registrationSuccessful.toString() == '0'
-                        ? CommonViews.error('User Already Exist')
-                        : Container(),
-              ),
-              gotoLogin(context)
-            ],
-          ),
-        ),
+  static Container signupButton(SignupMentorController controller) {
+    return Container(
+      height: 50,
+      padding: EdgeInsets.fromLTRB(10, 10, 10, 0),
+      child: RaisedButton(
+        textColor: BrewConstants.white,
+        color: BrewConstants.pulseBlue,
+        child: Text(BrewConstants.signUp),
+        onPressed: () {
+          // controller.signup();
+        },
       ),
     );
   }

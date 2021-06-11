@@ -18,18 +18,18 @@ class Viewer extends StatefulWidget {
 }
 
 class _ViewerState extends State<Viewer> {
-  VideoPlayerController? videoPlayerController;
+  VideoPlayerController? _controller;
   ChewieController? _chewieController;
 
-  @override
-  void initState() {
-    logger.d('widget.url! : ' + widget.url!);
+  void _initPlayer() async {
     this._chewieController = ChewieController(
         videoPlayerController: VideoPlayerController.network(widget.url!),
         aspectRatio: 16 / 9,
         autoInitialize: true,
+        allowedScreenSleep: false,
+        allowFullScreen: true,
         autoPlay: false,
-        looping: true,
+        looping: false,
         errorBuilder: (context, errorMessage) {
           return Center(
             child: Padding(
@@ -41,13 +41,13 @@ class _ViewerState extends State<Viewer> {
             ),
           );
         });
-    // videoPlayerController = VideoPlayerController.network(widget.url!);
+  }
 
-    // final playerWidget = Chewie(
-    //   controller: chewieController!,
-    // );
-
+  @override
+  void initState() {
+    logger.d('widget.url! : ' + widget.url!);
     super.initState();
+    _initPlayer();
   }
 
   @override
@@ -69,47 +69,10 @@ class _ViewerState extends State<Viewer> {
     );
   }
 
-  // @override
-  // void didUpdateWidget(covariant Viewer oldWidget) {
-  //   super.didUpdateWidget(oldWidget);
-  //   videoPlayerController!.initialize().then((value) {
-  //     setState(() {});
-  //   });
-  //   // TODO: implement didUpdateWidget
-  // }
-
-  // @override
-  // Widget build(BuildContext context) {
-  //   logger.d('Viewer : ' + widget.url!);
-
-  //   return AspectRatio(
-  //     aspectRatio: 2.5,
-  //     child: Container(
-  //       width: 100.0,
-  //       height: 20.0,
-  //       child: Chewie(
-  //         controller: chewieController!,
-  //       ),
-  //       // child: HtmlWidget(
-  //       //   '''
-  //       //           <video controls>
-  //       //             <source src="${widget.url}" type="video/mp4">
-  //       //             Your browser does not support HTML5 video.
-  //       //           </video>''',
-  //       //   buildAsync: true,
-  //       //   factoryBuilder: () => MyWidgetFactory(),
-  //       // ),
-  //     ),
-  //   );
-  // }
-
   @override
   void dispose() {
-    this._chewieController!.videoPlayerController.dispose();
-    this._chewieController!.dispose();
-    // _chewieController!.chewieController.dispose();
+    // this._chewieController!.videoPlayerController.dispose();
+    // this._chewieController!.dispose();
     super.dispose();
   }
 }
-
-// class MyWidgetFactory extends WidgetFactory with ChewieFactory {}
