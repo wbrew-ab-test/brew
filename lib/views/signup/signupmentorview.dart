@@ -3,11 +3,11 @@ import 'package:brew/controllers/signupmentorcontroller.dart';
 import 'package:brew/helper/modedetector.dart';
 import 'package:brew/views/common/commonviews.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:get/route_manager.dart';
 
 class SignupMentorViews {
-  static Container desktopView(
-      BuildContext context, FocusNode node, SignupMentorController controller) {
+  static Container desktopView(BuildContext context, FocusNode node) {
     final double width = (MediaQuery.of(context).size.width * 1);
     return Container(
       color: ModeDetector.isDarkMode(context)
@@ -32,7 +32,7 @@ class SignupMentorViews {
                         child: CommonViews.backgroundImage(context),
                       )
                     : Container(),
-                signupForm(context, node, controller),
+                signupForm(context, node),
               ],
             ),
           ),
@@ -41,8 +41,7 @@ class SignupMentorViews {
     );
   }
 
-  static Container mobileView(
-      BuildContext context, FocusNode node, SignupMentorController controller) {
+  static Container mobileView(BuildContext context, FocusNode node) {
     return Container(
       color: ModeDetector.isDarkMode(context)
           ? BrewConstants.black87
@@ -60,7 +59,7 @@ class SignupMentorViews {
           body: Center(
             child: Row(
               children: <Widget>[
-                signupForm(context, node, controller),
+                signupForm(context, node),
                 // signupForm(context, node, controller),
               ],
             ),
@@ -70,8 +69,8 @@ class SignupMentorViews {
     );
   }
 
-  static Expanded signupForm(
-      BuildContext context, FocusNode node, SignupMentorController controller) {
+  static Expanded signupForm(BuildContext context, FocusNode node) {
+    SignupMentorController controller = new SignupMentorController();
     return Expanded(
       flex: 1,
       child: Container(
@@ -89,34 +88,39 @@ class SignupMentorViews {
                   controller,
                   controller.mentorFirstNameController,
                   BrewConstants.firstName,
-                  false),
+                  false,
+                  true),
               CommonViews.textFieldControl(
                   context,
                   node,
                   controller,
                   controller.mentorLastNameController,
                   BrewConstants.lastName,
-                  false),
+                  false,
+                  true),
               CommonViews.textFieldControl(
                   context,
                   node,
                   controller,
                   controller.mentorDisplayNameController,
                   BrewConstants.displayName,
-                  false),
+                  false,
+                  true),
               CommonViews.textFieldControl(
                   context,
                   node,
                   controller,
                   controller.mentorEmailController,
                   BrewConstants.emailAddress,
-                  false),
+                  false,
+                  true),
               CommonViews.textFieldControl(
                   context,
                   node,
                   controller,
                   controller.mentorPasswordController,
                   BrewConstants.password,
+                  true,
                   true),
               CommonViews.textFieldControl(
                   context,
@@ -124,19 +128,19 @@ class SignupMentorViews {
                   controller,
                   controller.mentorConfirmPasswordController,
                   BrewConstants.confirmPassword,
+                  true,
                   true),
               CommonViews.brewDropdown(),
               signupButton(controller),
-              gotoLogin(context)
-              // // signupButton(controller),
-              // // GetBuilder<SignupController>(
-              // //   init: SignupController(),
-              // //   builder: (controller) =>
-              // //   controller.registrationSuccessful.toString() == '0'
-              // //       ? CommonViews.error('User Already Exist')
-              // //       : Container(),
-              // ),
-              // gotoLogin(context)
+              // signupButton(controller),
+              GetBuilder<SignupMentorController>(
+                init: SignupMentorController(),
+                builder: (controller) =>
+                    controller.registrationSuccessful.toString() == '0'
+                        ? CommonViews.error('User Already Exist')
+                        : Container(),
+              ),
+              gotoLogin(context),
             ],
           ),
         ),
@@ -157,6 +161,7 @@ class SignupMentorViews {
           ),
           FlatButton(
               onPressed: () {
+                // Get.to(BrewLogin());
                 Get.back();
               },
               child: Text(BrewConstants.login,
@@ -179,7 +184,7 @@ class SignupMentorViews {
         color: BrewConstants.pulseBlue,
         child: Text(BrewConstants.signUp),
         onPressed: () {
-          // controller.signup();
+          controller.signup();
         },
       ),
     );

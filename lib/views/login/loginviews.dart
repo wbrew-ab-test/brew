@@ -9,14 +9,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
-import 'package:get/route_manager.dart';
 
 class LoginViews {
-  static Scaffold desktopView(
-      BuildContext context, LoginController controller, FocusNode node) {
+  static Scaffold desktopView(BuildContext context, FocusNode node) {
     final double width = (MediaQuery.of(context).size.width * 1);
     logger.d('Width : ' + width.toString());
-
+    // LoginController controller = new LoginController();
     return Scaffold(
       body: Container(
         color: ModeDetector.isDarkMode(context)
@@ -41,7 +39,7 @@ class LoginViews {
                           child: CommonViews.backgroundImage(context),
                         )
                       : Container(),
-                  loginForm(controller, context, node),
+                  loginForm(context, node),
                 ],
               ),
             ),
@@ -51,9 +49,9 @@ class LoginViews {
     );
   }
 
-  static Scaffold mobileView(
-      BuildContext context, LoginController controller, FocusNode node) {
+  static Scaffold mobileView(BuildContext context, FocusNode node) {
     logger.d('Loading Mobile view');
+    // LoginController controller = new LoginController();
     return Scaffold(
       body: Container(
         color: ModeDetector.isDarkMode(context)
@@ -74,8 +72,7 @@ class LoginViews {
                 children: <Widget>[
                   GetBuilder<LoginController>(
                     init: LoginController(),
-                    builder: (controller) =>
-                        loginForm(controller, context, node),
+                    builder: (controller) => loginForm(context, node),
                   ),
                   // loginForm(controller, context, node),
                 ],
@@ -156,8 +153,8 @@ class LoginViews {
     );
   }
 
-  static Expanded loginForm(
-      LoginController controller, BuildContext context, FocusNode node) {
+  static Expanded loginForm(BuildContext context, FocusNode node) {
+    LoginController controller = new LoginController();
     return Expanded(
       flex: 1,
       child: Container(
@@ -169,14 +166,21 @@ class LoginViews {
             child: ListView(
               children: <Widget>[
                 CommonViews.pageTitle(context, BrewConstants.pulse),
-                CommonViews.textFieldControl(context, node, controller,
-                    controller.nameController, BrewConstants.userName, false),
+                CommonViews.textFieldControl(
+                    context,
+                    node,
+                    controller,
+                    controller.nameController,
+                    BrewConstants.userName,
+                    false,
+                    true),
                 CommonViews.textFieldControl(
                     context,
                     node,
                     controller,
                     controller.passwordController,
                     BrewConstants.password,
+                    true,
                     true),
                 nonDesktopView(controller, context),
                 loginButton(context, controller),

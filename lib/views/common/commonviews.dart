@@ -9,6 +9,7 @@ import 'package:brew/views/brewlogin.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:get/get.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class CommonViews {
   static AppBar getAppBar(String title) {
@@ -75,10 +76,12 @@ class CommonViews {
       controller,
       TextEditingController field,
       String labelText,
-      bool isSecure) {
+      bool isSecure,
+      bool isEnabled) {
     return Container(
       padding: EdgeInsets.all(10),
       child: TextFormField(
+        enabled: isEnabled,
         obscureText: isSecure,
         controller: field,
         style: TextStyle(
@@ -131,10 +134,34 @@ class CommonViews {
                     onTap: () {
                       switch (controller.menu![index].navId) {
                         case 'signout':
+                          // Future<SharedPreferences> _prefs =
+                          //     SharedPreferences.getInstance();
+                          // final Future<SharedPreferences> prefs = _prefs;
+                          // prefs.then((value) {
+
+                          // });
                           // Get.offNamedUntil('/', (_) => false);
-                          // Get.to(BrewLogin());
+
+                          // Get.off(BrewLogin())!.then((value) {
+                          //   logger.d('Value ::');
+                          //   Future<SharedPreferences> _prefs =
+                          //       SharedPreferences.getInstance();
+
+                          //   final Future<SharedPreferences> prefs = _prefs;
+                          //   prefs.then((value) {
+                          //     value.remove('email');
+                          //   });
+                          // });
+                          // Get.off(BrewLogin());
+                          // Future<SharedPreferences> _prefs =
+                          //     SharedPreferences.getInstance();
+
+                          // final Future<SharedPreferences> prefs = _prefs;
+                          // prefs.then((value) {
+                          //   value.remove('email');
+                          // });
                           Get.back();
-                          Get.back();
+                          // Get.back();
                           break;
                         case 'profile':
                           Get.toNamed('/profile');
@@ -407,7 +434,7 @@ class CommonViews {
             enabledBorder: OutlineInputBorder(
                 borderSide: BorderSide(color: BrewConstants.pulseBlue)),
           ),
-          hint: Text('Language'),
+          hint: Text('Experience'),
           value: controller.selectedValue,
           onChanged: (newValue) {
             controller.onSelected(newValue!);

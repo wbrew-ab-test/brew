@@ -7,7 +7,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 
-class BrewLogin extends GetView<LoginController> {
+// class BrewLogin extends GetView<LoginController> {
+class BrewLogin extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     logger.d(
@@ -20,7 +21,7 @@ class BrewLogin extends GetView<LoginController> {
       primaryColor: Theme.of(context).primaryColor.value,
     ));
     return PlatformInfo.isWeb()
-        ? LoginViews.desktopView(context, controller, node)
-        : LoginViews.mobileView(context, controller, node);
+        ? LoginViews.desktopView(context, node)
+        : LoginViews.mobileView(context, node);
   }
 }

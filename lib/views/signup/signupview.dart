@@ -1,14 +1,15 @@
 import 'package:brew/constants/brewconstants.dart';
 import 'package:brew/controllers/signupcontroller.dart';
 import 'package:brew/helper/modedetector.dart';
+import 'package:brew/views/brew.dart';
+import 'package:brew/views/brewlogin.dart';
 import 'package:brew/views/common/commonviews.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
 import 'package:get/route_manager.dart';
 
 class SignupViews {
-  static Container desktopView(
-      BuildContext context, FocusNode node, SignupController controller) {
+  static Container desktopView(BuildContext context, FocusNode node) {
     final double width = (MediaQuery.of(context).size.width * 1);
     return Container(
       color: ModeDetector.isDarkMode(context)
@@ -33,7 +34,7 @@ class SignupViews {
                         child: CommonViews.backgroundImage(context),
                       )
                     : Container(),
-                signupForm(context, node, controller),
+                signupForm(context, node),
               ],
             ),
           ),
@@ -42,8 +43,7 @@ class SignupViews {
     );
   }
 
-  static Container mobileView(
-      BuildContext context, FocusNode node, SignupController controller) {
+  static Container mobileView(BuildContext context, FocusNode node) {
     return Container(
       color: ModeDetector.isDarkMode(context)
           ? BrewConstants.black87
@@ -61,7 +61,7 @@ class SignupViews {
           body: Center(
             child: Row(
               children: <Widget>[
-                signupForm(context, node, controller),
+                signupForm(context, node),
               ],
             ),
           ),
@@ -98,6 +98,7 @@ class SignupViews {
           ),
           FlatButton(
               onPressed: () {
+                // Get.to(BrewLogin());
                 Get.back();
               },
               child: Text(BrewConstants.login,
@@ -111,12 +112,11 @@ class SignupViews {
     );
   }
 
-  static Expanded signupForm(
-      BuildContext context, FocusNode node, SignupController controller) {
+  static Expanded signupForm(BuildContext context, FocusNode node) {
+    SignupController controller = new SignupController();
     return Expanded(
       flex: 1,
       child: Container(
-        // height: 100,
         padding: EdgeInsets.fromLTRB(10, 40, 10, 10),
         alignment: Alignment.center,
         child: new Form(
@@ -130,31 +130,47 @@ class SignupViews {
                   controller,
                   controller.firstNameController,
                   BrewConstants.firstName,
-                  false),
-              CommonViews.textFieldControl(context, node, controller,
-                  controller.lastNameController, BrewConstants.lastName, false),
+                  false,
+                  true),
+              CommonViews.textFieldControl(
+                  context,
+                  node,
+                  controller,
+                  controller.lastNameController,
+                  BrewConstants.lastName,
+                  false,
+                  true),
               CommonViews.textFieldControl(
                   context,
                   node,
                   controller,
                   controller.displayNameController,
                   BrewConstants.displayName,
-                  false),
+                  false,
+                  true),
               CommonViews.textFieldControl(
                   context,
                   node,
                   controller,
                   controller.emailController,
                   BrewConstants.emailAddress,
-                  false),
-              CommonViews.textFieldControl(context, node, controller,
-                  controller.passwordController, BrewConstants.password, true),
+                  false,
+                  true),
+              CommonViews.textFieldControl(
+                  context,
+                  node,
+                  controller,
+                  controller.passwordController,
+                  BrewConstants.password,
+                  true,
+                  true),
               CommonViews.textFieldControl(
                   context,
                   node,
                   controller,
                   controller.confirmPasswordController,
                   BrewConstants.confirmPassword,
+                  true,
                   true),
               signupButton(controller),
               GetBuilder<SignupController>(

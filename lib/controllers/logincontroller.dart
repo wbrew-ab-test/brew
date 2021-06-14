@@ -3,15 +3,18 @@ import 'package:brew/logger/brewlogger.dart';
 import 'package:brew/models/brewauthenticationrequest.dart';
 import 'package:brew/models/brewprofile.dart';
 import 'package:brew/services/userauthservice.dart';
+import 'package:brew/views/brewdashboard.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get/get.dart';
 import 'package:get/state_manager.dart';
 import 'package:local_auth/local_auth.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginController extends GetxController {
-  static late GlobalKey<FormState> loginFormKey;
+  static late GlobalKey<FormState> loginFormKey = GlobalKey<FormState>();
+  // Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
   TextEditingController nameController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   RxInt loginSuccess = 1.obs;
@@ -25,7 +28,7 @@ class LoginController extends GetxController {
         '******************** Inside the onInit of LOGIN CONTROLLER ***************');
     // Get.lazyPut(() => UserAuthService());
     // Get.put(() => UserAuthService());
-    loginFormKey = GlobalKey<FormState>();
+    // loginFormKey = GlobalKey<FormState>();
 
     // loginFormKey = GlobalKey<FormState>();
     nameController.text = '';
@@ -105,7 +108,7 @@ class LoginController extends GetxController {
         logger.d("d Status Code : " + responseObj.body.toString());
         if (responseObj.statusCode == 200 || responseObj.statusCode == 201) {
           BrewProfile obj = BrewProfile.fromJson(responseObj.body);
-          loginSuccessChange();
+          loginSuccessChange(obj);
 
           logger.d('val : ' + loginSuccess.obs.value.toString());
         } else {
@@ -117,9 +120,19 @@ class LoginController extends GetxController {
     }
   }
 
-  void loginSuccessChange() {
+  void loginSuccessChange(BrewProfile profile) async {
+    final prefs = await SharedPreferences.getInstance();
+    // final SharedPreferences prefs = await _prefs;
+    String? email = prefs.getString('email');
+    if (null == email || email.trim() == '') {
+      prefs.clear();
+    }
+    prefs.setString('email', profile.email);
+    prefs.setString('displayName', profile.displayName);
+
     logger.d('inside update');
     loginSuccess = 1.obs;
+    // Get.off(BrewDashboard());
     Get.toNamed('/dashboard');
     update();
   }
@@ -205,7 +218,7 @@ class LoginController extends GetxController {
           logger.d("Status Code : " + responseObj.body.toString());
           if (responseObj.statusCode == 200) {
             BrewProfile obj = BrewProfile.fromJson(responseObj.body);
-            loginSuccessChange();
+            loginSuccessChange(obj);
             writeBiometrics(nameController.text, passwordController.text,
                 isBio.toString(), storage, auth, PlatformInfo.isIOS());
             logger.d('val : ' + loginSuccess.obs.value.toString());

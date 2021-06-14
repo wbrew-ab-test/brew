@@ -18,20 +18,11 @@ class BrewProfile extends StatelessWidget {
       primaryColor: Theme.of(context).primaryColor.value,
     ));
     return Scaffold(
-        appBar: CommonViews.getAppBar('My Profile'),
-        drawer: BrewMenu(),
-        body: Container(
-          child: Profile(screenSize: screenSize),
-        )
-        // body: PlatformInfo.isWeb()
-        //     ? WebVideoContainer(
-        //         isMobile: false,
-        //         width: width,
-        //       )
-        //     : WebVideoContainer(
-        //         isMobile: true,
-        //         width: width,
-        //       ),
-        );
+      appBar: CommonViews.getAppBar('My Profile'),
+      drawer: BrewMenu(),
+      body: Container(
+        child: Profile(screenSize: screenSize),
+      ),
+    );
   }
 }

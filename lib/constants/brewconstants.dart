@@ -55,6 +55,9 @@ class BrewConstants {
 
   static final String signBrewUpUrl =
       "http://192.168.1.6:5001/ng-course-recipe-book-2d135/us-central1/user/addProfile";
+
+  static final String profileUserByIdUrl =
+      "http://192.168.1.6:5001/ng-course-recipe-book-2d135/us-central1/user/fetchProfileByID";
   // static final String menuUrl =
   //     'http://192.168.1.9:5001/ng-course-recipe-book-2d135/us-central1/pulse/fetchMenuConfig';
   static final String httpKey = 'AIzaSyAlVsNtAQuS1uKtUnzapmMu3ZjkujecQsg';
@@ -92,4 +95,9 @@ class BrewConstants {
 
   // Font Size
   static final double headingSize = 24.0;
+
+  // Profile Screen
+  static final String desiredBand = 'Desired Band';
+  static final String enrolledPlan = 'Enrolled Plan';
+  static final String space = ' ';
 }

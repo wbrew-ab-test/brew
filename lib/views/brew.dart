@@ -12,14 +12,18 @@ class Brew extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetMaterialApp(
       // title: 'Login',
+      unknownRoute: GetPage(name: '/', page: () => BrewLogin()),
       initialRoute: '/',
       initialBinding: BrewBind(),
       getPages: [
-        GetPage(name: '/', page: () => BrewLogin()),
+        GetPage(
+          name: '/',
+          page: () => BrewLogin(),
+        ),
         GetPage(name: '/signup', page: () => BrewSignup()),
         GetPage(name: '/mentorSignup', page: () => BrewMentorSignup()),
         GetPage(name: '/dashboard', page: () => BrewDashboard()),
-        GetPage(name: '/profile', page: () => BrewProfile())
+        GetPage(name: '/profile', page: () => BrewProfile()),
       ],
     );
   }
