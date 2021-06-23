@@ -1,9 +1,12 @@
+import 'package:brew/constants/brewconstants.dart';
 import 'package:brew/helper/platforminfo.dart';
 import 'package:brew/logger/brewlogger.dart';
 import 'package:brew/models/brewauthenticationrequest.dart';
 import 'package:brew/models/brewprofile.dart';
+import 'package:brew/models/page/pagerequest.dart';
+import 'package:brew/models/page/pageresponse.dart';
+import 'package:brew/services/pageloadservice.dart';
 import 'package:brew/services/userauthservice.dart';
-import 'package:brew/views/brewdashboard.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -14,7 +17,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginController extends GetxController {
   static late GlobalKey<FormState> loginFormKey = GlobalKey<FormState>();
-  // Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
   TextEditingController nameController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   RxInt loginSuccess = 1.obs;
@@ -22,31 +24,56 @@ class LoginController extends GetxController {
       (PlatformInfo.isIOS() || PlatformInfo.isAndroid()) ? true : false;
   final FlutterSecureStorage storage = FlutterSecureStorage();
   final LocalAuthentication auth = LocalAuthentication();
+  PageResponse? pageResponse;
+  String? sideBarPath;
+  int? length;
+  String? title;
+  Controls? passwordControl;
   @override
-  void onInit() {
+  void onInit() async {
     logger.d(
         '******************** Inside the onInit of LOGIN CONTROLLER ***************');
-    // Get.lazyPut(() => UserAuthService());
-    // Get.put(() => UserAuthService());
-    // loginFormKey = GlobalKey<FormState>();
-
-    // loginFormKey = GlobalKey<FormState>();
-    nameController.text = '';
-    // isFaceID = PlatformInfo.isIOS() || PlatformInfo.isAndroid() ? true : false;
     super.onInit();
-    if (PlatformInfo.isIOS() || PlatformInfo.isAndroid()) {
-      getSecureStorageForMobileDevices();
-    }
-    // Get.lazyPut(() => UserAuthService());
-    ever(loginSuccess, (val) {
-      logger.d('loginSuccess : ' + val.toString());
-      if (val == 1) {
-        Get.toNamed('signup');
+    nameController.text = '';
+    Get.lazyPut(() => PageloadService());
+    PageRequest request = new PageRequest(collectionName: 'brewlogin');
+    late Future<Response> pageResponse = Get.find<PageloadService>()
+        .fetchPage(BrewConstants.fetchPageUrl, request);
+    await pageResponse.then((response) {
+      logger.d('response : ' + response.body.toString());
+      this.pageResponse = PageResponse.fromJson(response.body);
+      logger.d('pageResponse : ' + this.pageResponse!.data!.collectionName!);
+
+      this.sideBarPath = (this
+          .pageResponse!
+          .data!
+          .controls!
+          .firstWhere((control) => (control.type == 'sidebar'))
+          .imageurl);
+
+      if (null != this.pageResponse &&
+          null != this.pageResponse!.data &&
+          null != this.pageResponse!.data!.controls) {
+        this.length = this.pageResponse!.data!.controls!.length + 1;
       }
+
+      if (PlatformInfo.isIOS() || PlatformInfo.isAndroid()) {
+        this.passwordControl = this.pageResponse!.data!.controls!.firstWhere(
+            (control) =>
+                (control.type == 'text' && control.name == 'password'));
+        getSecureStorageForMobileDevices(this.passwordControl!);
+      }
+      ever(loginSuccess, (val) {
+        logger.d('loginSuccess : ' + val.toString());
+        if (val == 1) {
+          Get.toNamed('signup');
+        }
+      });
     });
+    update();
   }
 
-  void getSecureStorageForMobileDevices() async {
+  void getSecureStorageForMobileDevices(Controls control) async {
     try {
       logger.d('getSecureStorageForMobileDevices');
       String? isUsingBio = await storage.read(key: 'wantsTouchId');
@@ -80,7 +107,7 @@ class LoginController extends GetxController {
             storedPassword +
             ' : isFaceID : ' +
             isFaceID.toString());
-        authenticate(storedEmail, storedPassword, isFaceID);
+        authenticate(storedEmail, storedPassword, isFaceID, control);
       }
     } on PlatformException catch (e) {
       logger.e(e);
@@ -94,7 +121,7 @@ class LoginController extends GetxController {
     return null;
   }
 
-  void login() async {
+  void login(Controls control) async {
     if (loginFormKey.currentState!.validate()) {
       BrewAuthenticationRequest request = BrewAuthenticationRequest(
           email: nameController.text,
@@ -108,7 +135,7 @@ class LoginController extends GetxController {
         logger.d("d Status Code : " + responseObj.body.toString());
         if (responseObj.statusCode == 200 || responseObj.statusCode == 201) {
           BrewProfile obj = BrewProfile.fromJson(responseObj.body);
-          loginSuccessChange(obj);
+          loginSuccessChange(obj, control);
 
           logger.d('val : ' + loginSuccess.obs.value.toString());
         } else {
@@ -120,7 +147,7 @@ class LoginController extends GetxController {
     }
   }
 
-  void loginSuccessChange(BrewProfile profile) async {
+  void loginSuccessChange(BrewProfile profile, Controls control) async {
     final prefs = await SharedPreferences.getInstance();
     // final SharedPreferences prefs = await _prefs;
     String? email = prefs.getString('email');
@@ -133,7 +160,7 @@ class LoginController extends GetxController {
     logger.d('inside update');
     loginSuccess = 1.obs;
     // Get.off(BrewDashboard());
-    Get.toNamed('/dashboard');
+    Get.toNamed(control.route!);
     update();
   }
 
@@ -157,7 +184,8 @@ class LoginController extends GetxController {
   //   super.dispose();
   // }
 
-  void authenticate(String email, String password, bool isBio) async {
+  void authenticate(
+      String email, String password, bool isBio, Controls control) async {
     logger.d('Login Controller authenticate method : ' +
         'email : ' +
         email +
@@ -172,12 +200,12 @@ class LoginController extends GetxController {
             await auth.getAvailableBiometrics();
         if (PlatformInfo.isAndroid() &&
             availableBiometrics.contains(BiometricType.fingerprint)) {
-          readBiometrics(
-              email, password, isBio, PlatformInfo.isIOS(), auth, storage);
+          readBiometrics(email, password, isBio, PlatformInfo.isIOS(), auth,
+              storage, control);
         } else if (PlatformInfo.isIOS() &&
             availableBiometrics.contains(BiometricType.face)) {
-          readBiometrics(
-              email, password, isBio, PlatformInfo.isIOS(), auth, storage);
+          readBiometrics(email, password, isBio, PlatformInfo.isIOS(), auth,
+              storage, control);
         }
       } else {
         // Can't check
@@ -188,8 +216,14 @@ class LoginController extends GetxController {
     }
   }
 
-  void readBiometrics(email, password, bool isBio, bool isIOS,
-      LocalAuthentication auth, FlutterSecureStorage storage) async {
+  void readBiometrics(
+      email,
+      password,
+      bool isBio,
+      bool isIOS,
+      LocalAuthentication auth,
+      FlutterSecureStorage storage,
+      Controls control) async {
     final authenticated = await auth.authenticate(
         localizedReason: isIOS
             ? 'Enable Face Id to sign in more easily'
@@ -218,7 +252,7 @@ class LoginController extends GetxController {
           logger.d("Status Code : " + responseObj.body.toString());
           if (responseObj.statusCode == 200) {
             BrewProfile obj = BrewProfile.fromJson(responseObj.body);
-            loginSuccessChange(obj);
+            loginSuccessChange(obj, control);
             writeBiometrics(nameController.text, passwordController.text,
                 isBio.toString(), storage, auth, PlatformInfo.isIOS());
             logger.d('val : ' + loginSuccess.obs.value.toString());

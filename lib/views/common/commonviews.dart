@@ -1,11 +1,13 @@
 import 'package:brew/constants/brewconstants.dart';
+import 'package:brew/controllers/logincontroller.dart';
 import 'package:brew/controllers/menucontroller.dart';
 import 'package:brew/controllers/signupmentorcontroller.dart';
 import 'package:brew/controllers/videoscontroller.dart';
 import 'package:brew/helper/modedetector.dart';
 import 'package:brew/logger/brewlogger.dart';
+import 'package:brew/models/menu/sidebar.dart';
+import 'package:brew/models/page/pageresponse.dart';
 import 'package:brew/models/video/videoleaf.dart';
-import 'package:brew/views/brewlogin.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:get/get.dart';
@@ -27,27 +29,42 @@ class CommonViews {
       ),
       actions: <Widget>[
         Padding(
-            padding: EdgeInsets.only(right: 20.0),
-            child: GestureDetector(
-              onTap: () {
-                Get.back();
-                // Get.offAll(Brew());
-              },
-              child: Icon(
-                Icons.logout,
-                color: BrewConstants.white,
-                size: 26.0,
-              ),
-            )),
+          padding: EdgeInsets.only(right: 20.0),
+          child: GestureDetector(
+            onTap: () {
+              Get.back();
+              // Get.offAll(Brew());
+            },
+            child: Icon(
+              Icons.logout,
+              color: BrewConstants.white,
+              size: 26.0,
+            ),
+          ),
+        ),
       ],
     );
   }
 
-  static Container backgroundImage(BuildContext context) {
+  static Container loadBackgroundImage(String? path, BuildContext context) {
+    // Controls? control = controller.pageResponse!.data!.controls![0];
     return Container(
       alignment: Alignment.center,
       child: Image.asset(
-        "assets/loginbackground.png",
+        path!,
+        fit: BoxFit.cover,
+        width: MediaQuery.of(context).size.width * 0.65,
+        height: MediaQuery.of(context).size.height * .995,
+      ),
+    );
+  }
+
+  static Container backgroundImage(BuildContext context) {
+    // Controls? control = controller.pageResponse!.data!.controls![0];
+    return Container(
+      alignment: Alignment.center,
+      child: Image.asset(
+        'assets/loginbackground.png',
         fit: BoxFit.cover,
         width: MediaQuery.of(context).size.width * 0.65,
         height: MediaQuery.of(context).size.height * .995,
@@ -127,39 +144,15 @@ class CommonViews {
                 children: <Widget>[
                   ListTile(
                     title: Text(
-                      controller.menu![index].displayName,
+                      // controller.menu![index].displayName,
+                      // displayItem(controller.menu![index]),
+                      displayItem(controller.menu![index]),
                       style:
                           TextStyle(color: BrewConstants.white, fontSize: 18.0),
                     ),
                     onTap: () {
                       switch (controller.menu![index].navId) {
                         case 'signout':
-                          // Future<SharedPreferences> _prefs =
-                          //     SharedPreferences.getInstance();
-                          // final Future<SharedPreferences> prefs = _prefs;
-                          // prefs.then((value) {
-
-                          // });
-                          // Get.offNamedUntil('/', (_) => false);
-
-                          // Get.off(BrewLogin())!.then((value) {
-                          //   logger.d('Value ::');
-                          //   Future<SharedPreferences> _prefs =
-                          //       SharedPreferences.getInstance();
-
-                          //   final Future<SharedPreferences> prefs = _prefs;
-                          //   prefs.then((value) {
-                          //     value.remove('email');
-                          //   });
-                          // });
-                          // Get.off(BrewLogin());
-                          // Future<SharedPreferences> _prefs =
-                          //     SharedPreferences.getInstance();
-
-                          // final Future<SharedPreferences> prefs = _prefs;
-                          // prefs.then((value) {
-                          //   value.remove('email');
-                          // });
                           Get.back();
                           // Get.back();
                           break;
@@ -179,6 +172,23 @@ class CommonViews {
             }),
       ),
     );
+  }
+
+  static String displayItem(Sidebarnav nav) {
+    if (nav.navId == 'profilename') {
+      Future<String> item =
+          getValueFromSharedPreferences('displayName').then((value) {
+        return value;
+      });
+      return 'Hi, ' + item.toString();
+    } else {
+      return nav.displayName;
+    }
+  }
+
+  static Future<String> getValueFromSharedPreferences(String key) async {
+    final prefs = await SharedPreferences.getInstance();
+    return prefs.getString(key)!;
   }
 
   static Row error(String errorMessage) {

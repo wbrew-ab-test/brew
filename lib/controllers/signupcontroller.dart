@@ -1,12 +1,16 @@
+import 'package:brew/constants/brewconstants.dart';
 import 'package:brew/logger/brewlogger.dart';
+import 'package:brew/models/page/pagerequest.dart';
+import 'package:brew/models/page/pageresponse.dart';
 import 'package:brew/models/profile/profile.dart';
 import 'package:brew/models/usersignuprequest.dart';
+import 'package:brew/services/pageloadservice.dart';
 import 'package:brew/services/userauthservice.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class SignupController extends GetxController {
-  GlobalKey<FormState> signupFormKey = GlobalKey<FormState>();
+  static late GlobalKey<FormState> signupFormKey = GlobalKey<FormState>();
   TextEditingController displayNameController = TextEditingController();
   TextEditingController firstNameController = TextEditingController();
   TextEditingController lastNameController = TextEditingController();
@@ -15,9 +19,13 @@ class SignupController extends GetxController {
   TextEditingController confirmPasswordController = TextEditingController();
   RxInt registrationSuccessful = 1.obs;
   late Worker _ever;
+  PageResponse? pageResponse;
+  String? sideBarPath;
+  int? length;
+  String? title;
 
   @override
-  void onInit() {
+  void onInit() async {
     super.onInit();
     displayNameController.text = '';
     firstNameController.text = '';
@@ -25,11 +33,38 @@ class SignupController extends GetxController {
     emailController.text = '';
     passwordController.text = '';
     confirmPasswordController.text = '';
-    // Get.lazyPut(() => BrewSignupService());
-    // Get.lazyPut(() => UserAuthService());
+    Get.lazyPut(() => PageloadService());
+    PageRequest request = new PageRequest(collectionName: 'brewstudentsignup');
+    late Future<Response> pageResponse = Get.find<PageloadService>()
+        .fetchPage(BrewConstants.fetchPageUrl, request);
+    logger.d('pageResponse : ' + pageResponse.toString());
+
+    // await pageResponse.then((page) {
+    //   logger.d('page :' + page.body.toString());
+    // });
+    await pageResponse.then((response) {
+      logger.d('Sign up Response: ' + response.body.toString());
+      this.pageResponse = PageResponse.fromJson(response.body);
+      logger.d(
+          'Sign up pageResponse : ' + this.pageResponse!.data!.collectionName!);
+
+      this.sideBarPath = (this
+          .pageResponse!
+          .data!
+          .controls!
+          .firstWhere((control) => (control.type == 'sidebar'))
+          .imageurl);
+
+      if (null != this.pageResponse &&
+          null != this.pageResponse!.data &&
+          null != this.pageResponse!.data!.controls) {
+        this.length = this.pageResponse!.data!.controls!.length + 1;
+      }
+    });
 
     _ever = ever(
         registrationSuccessful, (_) => logger.d("$_ has been changed (ever)"));
+    update();
   }
 
   String? validator(String? value) {
@@ -39,7 +74,7 @@ class SignupController extends GetxController {
     return null;
   }
 
-  void signup() async {
+  void signup(Controls control) async {
     if (signupFormKey.currentState!.validate()) {
       logger.d('sign up form');
       UserSignupRequest request = new UserSignupRequest(

@@ -13,6 +13,7 @@ class BrewBind extends Bindings {
     Get.lazyPut(() => SignupController());
     Get.lazyPut(() => MenuController());
     Get.lazyPut(() => VideosController());
-    Get.lazyPut(() => SignupMentorController()); // Get.put(() => UserAuthService());
+    Get.lazyPut(
+        () => SignupMentorController()); // Get.put(() => UserAuthService());
   }
 }

@@ -1,0 +1,91 @@
+{
+	"collectionName": "brewlogin",
+	"screenName": "login",
+	"webPageTitle": "Pulse Login",
+	"controls": [
+		{
+			"seq": 0,
+			"name": "sidebar",
+			"label": "Sidebar",
+			"isSecure": false,
+			"type": "sidebar",
+			"imageurl": "assets/loginbackground.png"
+		},
+		{
+			"seq": 1,
+			"name": "title",
+			"label": "Pulse",
+			"isSecure": false,
+			"type": "pagetitle",
+			"isEnable": true
+		},
+		{
+			"seq": 2,
+			"name": "emailid",
+			"label": "Email ID",
+			"isSecure": false,
+			"type": "text",
+			"required": true,
+			"errorMessage": "Email is mandatory Field!",
+			"isEnable": true
+		},
+		{
+			"seq": 3,
+			"name": "password",
+			"label": "password",
+			"isSecure": true,
+			"type": "text",
+			"required": true,
+			"errorMessage": "Password is mandatory Field!",
+			"isEnable": true
+		},
+		{
+			"seq": 4,
+			"name": "faceid",
+			"label": "Enabled Face ID",
+			"isSecure": false,
+			"type": "text",
+			"required": false,
+			"errorMessage": "Password is mandatory Field!",
+			"isEnable": true
+		},
+		{
+			"seq": 5,
+			"name": "Login",
+			"label": "N/A",
+			"isSecure": false,
+			"type": "button",
+			"route": "/dashboard",
+			"errorMessage": "Login failed ! Try Again",
+			"httpUrl": "https://www.googleapis.com/identitytoolkit/v3/relyingparty/verifyPassword?key=",
+			"isEnable": true
+		},
+		{
+			"seq": 6,
+			"name": "ForgotPassword",
+			"label": "Forgot Password",
+			"isSecure": false,
+			"type": "link",
+			"route": "/forgotpassword",
+			"isEnable": true
+		},
+		{
+			"seq": 7,
+			"name": "Student",
+			"label": "Student",
+			"isSecure": false,
+			"type": "link",
+			"route": "/signup",
+			"isEnable": true
+		},
+		{
+			"seq": 8,
+			"name": "Mentor",
+			"label": "Mentor",
+			"isSecure": false,
+			"type": "link",
+			"route": "/mentorSignup",
+			"isEnable": true
+		}
+	]
+}

@@ -3,6 +3,7 @@ import 'package:brew/controllers/logincontroller.dart';
 import 'package:brew/helper/modedetector.dart';
 import 'package:brew/helper/platforminfo.dart';
 import 'package:brew/logger/brewlogger.dart';
+import 'package:brew/models/page/pageresponse.dart';
 import 'package:brew/views/common/commonviews.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -14,7 +15,6 @@ class LoginViews {
   static Scaffold desktopView(BuildContext context, FocusNode node) {
     final double width = (MediaQuery.of(context).size.width * 1);
     logger.d('Width : ' + width.toString());
-    // LoginController controller = new LoginController();
     return Scaffold(
       body: Container(
         color: ModeDetector.isDarkMode(context)
@@ -34,12 +34,22 @@ class LoginViews {
               child: Row(
                 children: <Widget>[
                   width > 767
-                      ? Expanded(
-                          flex: 2,
-                          child: CommonViews.backgroundImage(context),
+                      ? GetBuilder<LoginController>(
+                          init: LoginController(),
+                          builder: (controller) => Expanded(
+                            flex: 2,
+                            child: (null != controller.sideBarPath)
+                                ? CommonViews.loadBackgroundImage(
+                                    controller.sideBarPath, context)
+                                : Container(),
+                          ),
                         )
                       : Container(),
-                  loginForm(context, node),
+                  GetBuilder<LoginController>(
+                    init: LoginController(),
+                    builder: (controller) =>
+                        loginForm(controller, context, node),
+                  ),
                 ],
               ),
             ),
@@ -72,7 +82,8 @@ class LoginViews {
                 children: <Widget>[
                   GetBuilder<LoginController>(
                     init: LoginController(),
-                    builder: (controller) => loginForm(context, node),
+                    builder: (controller) =>
+                        loginForm(controller, context, node),
                   ),
                   // loginForm(controller, context, node),
                 ],
@@ -99,34 +110,35 @@ class LoginViews {
   }
 
   static Container loginButton(
-      BuildContext context, LoginController controller) {
+      BuildContext context, LoginController controller, Controls control) {
     return Container(
       height: 50,
       padding: EdgeInsets.fromLTRB(10, 10, 10, 0),
       child: RaisedButton(
         textColor: BrewConstants.white70,
         color: BrewConstants.pulseBlue,
-        child: Text(BrewConstants.login),
+        child: Text(control.name!),
         onPressed: () {
-          controller.login();
+          controller.login(control);
         },
       ),
     );
   }
 
-  static Container forgotPassword() {
+  static Container forgotPassword(Controls control) {
     return Container(
       child: FlatButton(
         onPressed: () {
           //forgot password screen
         },
         textColor: BrewConstants.pulseBlue,
-        child: Text(BrewConstants.forgotPassword),
+        child: Text(control.label!),
       ),
     );
   }
 
-  static Container signupContainer(BuildContext context) {
+  static Container signupContainer(
+      BuildContext context, Controls studentControl, Controls mentorControl) {
     return Container(
       padding: EdgeInsets.zero,
       child: Row(
@@ -138,7 +150,9 @@ class LoginViews {
                     ? BrewConstants.white70
                     : BrewConstants.black87),
           ),
-          CommonViews.buttonRoute(BrewConstants.student, '/signup', 14),
+          // CommonViews.buttonRoute(BrewConstants.student, '/signup', 14),
+          CommonViews.buttonRoute(
+              studentControl.label!, studentControl.route!, 14),
           Text(
             BrewConstants.or,
             style: TextStyle(
@@ -146,64 +160,135 @@ class LoginViews {
                     ? BrewConstants.white70
                     : BrewConstants.black87),
           ),
-          CommonViews.buttonRoute(BrewConstants.mentor, '/mentorSignup', 14),
+          // CommonViews.buttonRoute(BrewConstants.mentor, '/mentorSignup', 14),
+          CommonViews.buttonRoute(
+              mentorControl.label!, mentorControl.route!, 14),
         ],
         mainAxisAlignment: MainAxisAlignment.center,
       ),
     );
   }
 
-  static Expanded loginForm(BuildContext context, FocusNode node) {
-    LoginController controller = new LoginController();
+  static Expanded loginForm(
+      LoginController controller, BuildContext context, FocusNode node) {
+    // LoginController controller = new LoginController();
     return Expanded(
       flex: 1,
       child: Container(
-          // height: 100,
-          padding: EdgeInsets.fromLTRB(10, 40, 10, 10),
-          alignment: Alignment.center,
-          child: new Form(
-            key: LoginController.loginFormKey,
-            child: ListView(
-              children: <Widget>[
-                CommonViews.pageTitle(context, BrewConstants.pulse),
-                CommonViews.textFieldControl(
+        // height: 100,
+        padding: EdgeInsets.fromLTRB(10, 40, 10, 10),
+        alignment: Alignment.center,
+        child: new Form(
+          key: LoginController.loginFormKey,
+          child: ListView.builder(
+              itemCount: controller.length,
+              itemBuilder: (BuildContext context, int position) {
+                return getLoginComponent(controller, context, position, node);
+              }),
+        ),
+      ),
+    );
+  }
+
+  static Container getLoginComponent(LoginController controller,
+      BuildContext context, int index, FocusNode node) {
+    if (null != controller.pageResponse &&
+        null != controller.pageResponse!.data &&
+        null != controller.pageResponse!.data!.controls) {
+      switch (index) {
+        case 1:
+          {
+            Controls control = controller.pageResponse!.data!.controls!
+                .firstWhere((control) => control.type == 'pagetitle');
+            return (null != control.label && control.isEnable!)
+                ? CommonViews.pageTitle(context, control.label!)
+                : Container();
+          }
+        case 2:
+          {
+            Controls control = controller.pageResponse!.data!.controls!
+                .firstWhere((control) =>
+                    (control.type == 'text' && control.name == 'emailid'));
+            return control.isEnable!
+                ? CommonViews.textFieldControl(
                     context,
                     node,
                     controller,
                     controller.nameController,
-                    BrewConstants.userName,
-                    false,
-                    true),
-                CommonViews.textFieldControl(
+                    control.label!,
+                    control.isSecure!,
+                    true)
+                : Container();
+          }
+        case 3:
+          {
+            Controls control = controller.pageResponse!.data!.controls!
+                .firstWhere((control) =>
+                    (control.type == 'text' && control.name == 'password'));
+            return control.isEnable!
+                ? CommonViews.textFieldControl(
                     context,
                     node,
                     controller,
                     controller.passwordController,
-                    BrewConstants.password,
-                    true,
-                    true),
-                nonDesktopView(controller, context),
-                loginButton(context, controller),
-                GetBuilder<LoginController>(
-                  init: LoginController(),
-                  builder: (controller) => controller.loginSuccess.toInt() == 0
-                      ? CommonViews.error('Authentication Failed ! Try Again.')
-                      : Container(),
-                ),
-                forgotPassword(),
-                signupContainer(context),
-              ],
-            ),
-          )),
-    );
+                    control.name!,
+                    control.isSecure!,
+                    true)
+                : Container();
+          }
+        case 4:
+          {
+            return Container(
+              child: nonDesktopView(controller, context),
+            );
+          }
+        case 5:
+          {
+            Controls control = controller.pageResponse!.data!.controls!
+                .firstWhere((control) =>
+                    (control.type == 'button' && control.name == 'Login'));
+            return control.isEnable!
+                ? loginButton(context, controller, control)
+                : Container();
+          }
+        case 6:
+          {
+            Controls control = controller.pageResponse!.data!.controls!
+                .firstWhere((control) => (control.type == 'link' &&
+                    control.name == 'ForgotPassword'));
+            return control.isEnable! ? forgotPassword(control) : Container();
+          }
+        case 7:
+          {
+            Controls studentControl = controller.pageResponse!.data!.controls!
+                .firstWhere((control) =>
+                    (control.type == 'link' && control.name == 'Student'));
+            Controls mentorControl = controller.pageResponse!.data!.controls!
+                .firstWhere((control) =>
+                    (control.type == 'link' && control.name == 'Mentor'));
+            return signupContainer(context, studentControl, mentorControl);
+          }
+        default:
+          {
+            return Container();
+          }
+      }
+    } else {
+      return Container(
+        child: Text('Loading ......'),
+      );
+    }
   }
 
   static dynamic nonDesktopView(
       LoginController controller, BuildContext context) {
     return controller.isFaceID && !PlatformInfo.isWeb()
         ? InkWell(
-            onTap: () => controller.authenticate(controller.nameController.text,
-                controller.passwordController.text, controller.isFaceID),
+            onTap: () => controller.authenticate(
+                controller.nameController.text,
+                controller.passwordController.text,
+                controller.isFaceID,
+                controller.passwordControl!),
             child: Container(
                 decoration: BoxDecoration(
                   color: Colors.transparent,

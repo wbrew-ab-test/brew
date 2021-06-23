@@ -1,0 +1,67 @@
+{
+	"collectionName": "brewlogin",
+	"screenName": "login",
+	"webPageTitle": "Pulse Login",
+	"titleOfPage": "Pulse Login",
+	"controls": [
+		{
+			"seq": 0,
+			"name": "sidebar",
+			"label": "Sidebar",
+			"isSecure": false,
+			"type": "sidebar",
+			"imageurl": "assets/loginbackground.png"
+		},
+		{
+			"seq": 1,
+			"name": "Email Id",
+			"label": "Email ID",
+			"isSecure": false,
+			"type": "text",
+			"required": true,
+			"errorMessage": "Email is mandatory Field!"
+		},
+		{
+			"seq": 2,
+			"name": "Password",
+			"label": "Email ID",
+			"isSecure": true,
+			"type": "text",
+			"required": true,
+			"errorMessage": "Password is mandatory Field!"
+		},
+		{
+			"seq": 3,
+			"name": "Login",
+			"label": "N/A",
+			"isSecure": false,
+			"type": "button",
+			"route": "/dashboard",
+			"errorMessage": "Login failed ! Try Again"
+		},
+		{
+			"seq": 4,
+			"name": "ForgotPassword",
+			"label": "Forgot Password",
+			"isSecure": false,
+			"type": "link",
+			"route": "/forgotpassword"
+		},
+		{
+			"seq": 5,
+			"name": "Student",
+			"label": "Student",
+			"isSecure": false,
+			"type": "link",
+			"route": "/signup"
+		},
+		{
+			"seq": 6,
+			"name": "Mentor",
+			"label": "Mentor",
+			"isSecure": false,
+			"type": "link",
+			"route": "/mentorSignup"
+		}
+	]
+}

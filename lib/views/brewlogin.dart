@@ -1,4 +1,3 @@
-import 'package:brew/controllers/logincontroller.dart';
 import 'package:brew/helper/platforminfo.dart';
 import 'package:brew/logger/brewlogger.dart';
 import 'package:brew/services/userauthservice.dart';
@@ -15,6 +14,7 @@ class BrewLogin extends StatelessWidget {
         '************************ Inside the BrewLogin *************************');
     FocusNode node = new FocusNode();
     Get.lazyPut(() => UserAuthService());
+
     SystemChrome.setApplicationSwitcherDescription(
         ApplicationSwitcherDescription(
       label: 'Pulse - Login',

@@ -49,15 +49,17 @@ class BrewConstants {
   static final String userLookupUrl =
       'https://identitytoolkit.googleapis.com/v1/accounts:lookup?key=';
   static final String menuUrl =
-      'http://192.168.1.6:5001/ng-course-recipe-book-2d135/us-central1/pulse/fetchMenuConfig';
+      'http://192.168.1.5:5001/ng-course-recipe-book-2d135/us-central1/pulse/fetchMenuConfig';
   static final String fetchVideosUrl =
-      "http://192.168.1.6:5001/ng-course-recipe-book-2d135/us-central1/pulseVideos/fetchVideos";
+      "http://192.168.1.5:5001/ng-course-recipe-book-2d135/us-central1/pulseVideos/fetchVideos";
 
   static final String signBrewUpUrl =
-      "http://192.168.1.6:5001/ng-course-recipe-book-2d135/us-central1/user/addProfile";
+      "http://192.168.1.5:5001/ng-course-recipe-book-2d135/us-central1/user/addProfile";
 
   static final String profileUserByIdUrl =
-      "http://192.168.1.6:5001/ng-course-recipe-book-2d135/us-central1/user/fetchProfileByID";
+      "http://192.168.1.5:5001/ng-course-recipe-book-2d135/us-central1/user/fetchProfileByID";
+  static final String fetchPageUrl =
+      'http://192.168.1.5:5001/ng-course-recipe-book-2d135/us-central1/page/fetchPage';
   // static final String menuUrl =
   //     'http://192.168.1.9:5001/ng-course-recipe-book-2d135/us-central1/pulse/fetchMenuConfig';
   static final String httpKey = 'AIzaSyAlVsNtAQuS1uKtUnzapmMu3ZjkujecQsg';
