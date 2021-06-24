@@ -14,12 +14,6 @@ void main() async {
   const String region = (null != env) ? env : 'prod';
   logger.d('Load the env : ' + region);
   runApp(Brew());
-  // await GlobalConfiguration().loadFromAsset('env-' + env);
-
-  // response = loadAsset(env);
-  // await dotenv.load(fileName: "env/.env-" + region);
-  // String ab = dotenv.env['httpKey']!;
-  // logger.d('TEST_VAR : ' + response[0]["loginUrl"]!);
 }
 
 Future<String> loadAsset(String env) async {

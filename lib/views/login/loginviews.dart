@@ -151,8 +151,10 @@ class LoginViews {
                     : BrewConstants.black87),
           ),
           // CommonViews.buttonRoute(BrewConstants.student, '/signup', 14),
-          CommonViews.buttonRoute(
-              studentControl.label!, studentControl.route!, 14),
+          // CommonViews.buttonRoute(
+          //     studentControl.label!, studentControl.route!, 14),
+          CommonViews.brewRoute(
+              context, studentControl.label!, studentControl.route!, 14),
           Text(
             BrewConstants.or,
             style: TextStyle(
@@ -179,7 +181,7 @@ class LoginViews {
         padding: EdgeInsets.fromLTRB(10, 40, 10, 10),
         alignment: Alignment.center,
         child: new Form(
-          key: LoginController.loginFormKey,
+          key: controller.loginFormKey,
           child: ListView.builder(
               itemCount: controller.length,
               itemBuilder: (BuildContext context, int position) {

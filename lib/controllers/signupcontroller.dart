@@ -10,7 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class SignupController extends GetxController {
-  static late GlobalKey<FormState> signupFormKey = GlobalKey<FormState>();
+  GlobalKey<FormState> signupFormKey = GlobalKey<FormState>();
   TextEditingController displayNameController = TextEditingController();
   TextEditingController firstNameController = TextEditingController();
   TextEditingController lastNameController = TextEditingController();
@@ -39,9 +39,6 @@ class SignupController extends GetxController {
         .fetchPage(BrewConstants.fetchPageUrl, request);
     logger.d('pageResponse : ' + pageResponse.toString());
 
-    // await pageResponse.then((page) {
-    //   logger.d('page :' + page.body.toString());
-    // });
     await pageResponse.then((response) {
       logger.d('Sign up Response: ' + response.body.toString());
       this.pageResponse = PageResponse.fromJson(response.body);

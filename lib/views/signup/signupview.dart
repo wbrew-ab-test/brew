@@ -6,7 +6,6 @@ import 'package:brew/models/page/pageresponse.dart';
 import 'package:brew/views/common/commonviews.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
-import 'package:get/route_manager.dart';
 
 class SignupViews {
   static Container desktopView(BuildContext context, FocusNode node) {
@@ -33,7 +32,8 @@ class SignupViews {
                         init: SignupController(),
                         builder: (controller) => Expanded(
                           flex: 2,
-                          child: (null != controller.sideBarPath)
+                          child: (null != controller &&
+                                  null != controller.sideBarPath)
                               ? CommonViews.loadBackgroundImage(
                                   controller.sideBarPath, context)
                               : Container(),
@@ -42,8 +42,12 @@ class SignupViews {
                     : Container(),
                 GetBuilder<SignupController>(
                   init: SignupController(),
-                  builder: (controller) =>
-                      signupForm(controller, context, node),
+                  builder: (controller) => (null != controller.pageResponse &&
+                          null != controller.pageResponse!.data)
+                      ? signupForm(controller, context, node)
+                      : Container(
+                          child: Center(child: CircularProgressIndicator()),
+                        ),
                 ),
               ],
               // children: <Widget>[
@@ -125,7 +129,12 @@ class SignupViews {
               onPressed: () {
                 // Get.to(BrewLogin());
                 // Get.back();
-                Get.toNamed(control.route!);
+                // Get.toNamed(control.route!);
+                // CommonViews.brewRoute(
+                //     context, control.label!, control.route!, 14);
+                // Navigator.pushNamed(context, control.route!);
+                // Navigator.pop(context);
+                Navigator.popAndPushNamed(context, control.route!);
               },
               child: Text(control.label!,
                   style: TextStyle(
@@ -148,7 +157,7 @@ class SignupViews {
         padding: EdgeInsets.fromLTRB(10, 40, 10, 10),
         alignment: Alignment.center,
         child: new Form(
-          key: SignupController.signupFormKey,
+          key: controller.signupFormKey,
           child: ListView.builder(
               itemCount: controller.length,
               itemBuilder: (BuildContext context, int position) {

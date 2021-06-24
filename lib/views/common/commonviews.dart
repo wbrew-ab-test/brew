@@ -422,7 +422,30 @@ class CommonViews {
   ) {
     return TextButton(
       onPressed: () {
+        // Get.until((route) => false);
         Get.toNamed(route);
+      },
+      child: Text(
+        label,
+        style: TextStyle(
+          fontSize: fontSize,
+          color: BrewConstants.pulseBlue,
+        ),
+      ),
+    );
+  }
+
+  static TextButton brewRoute(
+    BuildContext context,
+    String label,
+    String route,
+    double fontSize,
+  ) {
+    return TextButton(
+      onPressed: () {
+        // Get.until((route) => false);
+        // Get.toNamed(route);
+        Navigator.pushNamed(context, route);
       },
       child: Text(
         label,
