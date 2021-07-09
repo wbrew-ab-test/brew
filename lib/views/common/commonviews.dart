@@ -228,30 +228,6 @@ class CommonViews {
             text: title,
             style: TextStyle(
                 color: Colors.black, fontSize: 18, fontWeight: FontWeight.bold),
-            children: [
-              //   WidgetSpan(
-              //     alignment: PlaceholderAlignment.middle,
-              //     child: Icon(
-              //       Icons.circle,
-              //       size: 18,
-              //       color: Colors.blue.shade400,
-              //     ),
-              //   ),
-              //   WidgetSpan(
-              //     child: Icon(
-              //       Icons.circle,
-              //       size: 18,
-              //       color: Colors.blue.shade400,
-              //     ),
-              //   ),
-              //   WidgetSpan(
-              //     child: Icon(
-              //       Icons.circle,
-              //       size: 18,
-              //       color: Colors.blue.shade400,
-              //     ),
-              //   ),
-            ],
           ),
         ),
       ),

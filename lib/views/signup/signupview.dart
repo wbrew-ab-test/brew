@@ -6,6 +6,7 @@ import 'package:brew/models/page/pageresponse.dart';
 import 'package:brew/views/common/commonviews.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
+import 'package:get/get.dart';
 
 class SignupViews {
   static Container desktopView(BuildContext context, FocusNode node) {
@@ -128,13 +129,13 @@ class SignupViews {
           FlatButton(
               onPressed: () {
                 // Get.to(BrewLogin());
-                // Get.back();
+                Get.back();
                 // Get.toNamed(control.route!);
                 // CommonViews.brewRoute(
                 //     context, control.label!, control.route!, 14);
                 // Navigator.pushNamed(context, control.route!);
                 // Navigator.pop(context);
-                Navigator.popAndPushNamed(context, control.route!);
+                // Navigator.popAndPushNamed(context, control.route!);
               },
               child: Text(control.label!,
                   style: TextStyle(

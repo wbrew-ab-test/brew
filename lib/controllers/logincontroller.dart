@@ -16,7 +16,7 @@ import 'package:local_auth/local_auth.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginController extends GetxController {
-  GlobalKey<FormState> loginFormKey = GlobalKey<FormState>();
+  final GlobalKey<FormState> loginFormKey = GlobalKey<FormState>();
   TextEditingController nameController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   RxInt loginSuccess = 1.obs;
@@ -122,6 +122,8 @@ class LoginController extends GetxController {
   }
 
   void login(Controls control) async {
+    if (!loginFormKey.currentState!.validate()) return;
+
     if (loginFormKey.currentState!.validate()) {
       BrewAuthenticationRequest request = BrewAuthenticationRequest(
           email: nameController.text,

@@ -1,13 +1,12 @@
 import 'package:brew/logger/brewlogger.dart';
 import 'package:brew/models/profile/profile.dart';
-import 'package:brew/models/profile/profilerequest.dart';
 import 'package:brew/models/usersignuprequest.dart';
 import 'package:brew/services/userauthservice.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 
 class SignupMentorController extends GetxController {
-  GlobalKey<FormState> signupMentorFormKey = GlobalKey<FormState>();
+  final GlobalKey<FormState> signupMentorFormKey = GlobalKey<FormState>();
   TextEditingController mentorDisplayNameController = TextEditingController();
   TextEditingController mentorFirstNameController = TextEditingController();
   TextEditingController mentorLastNameController = TextEditingController();
@@ -42,6 +41,7 @@ class SignupMentorController extends GetxController {
   }
 
   void signup() async {
+    if (!signupMentorFormKey.currentState!.validate()) return;
     if (signupMentorFormKey.currentState!.validate()) {
       logger.d('sign up form');
       UserSignupRequest request = new UserSignupRequest(

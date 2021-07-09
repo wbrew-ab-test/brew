@@ -10,7 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class SignupController extends GetxController {
-  GlobalKey<FormState> signupFormKey = GlobalKey<FormState>();
+  final GlobalKey<FormState> signupFormKey = GlobalKey<FormState>();
   TextEditingController displayNameController = TextEditingController();
   TextEditingController firstNameController = TextEditingController();
   TextEditingController lastNameController = TextEditingController();
@@ -72,6 +72,7 @@ class SignupController extends GetxController {
   }
 
   void signup(Controls control) async {
+    if (!signupFormKey.currentState!.validate()) return;
     if (signupFormKey.currentState!.validate()) {
       logger.d('sign up form');
       UserSignupRequest request = new UserSignupRequest(

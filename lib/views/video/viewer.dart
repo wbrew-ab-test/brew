@@ -9,6 +9,7 @@ import 'package:video_player/video_player.dart';
 class Viewer extends StatefulWidget {
   final String? url;
   final UniqueKey? newKey;
+  // final DocumentSnapshot? document;
   Viewer({required this.url, required this.newKey}) : super(key: newKey);
 
   @override
@@ -20,6 +21,7 @@ class Viewer extends StatefulWidget {
 class _ViewerState extends State<Viewer> {
   VideoPlayerController? _controller;
   ChewieController? _chewieController;
+  bool fetchVideoFromOnline = true;
 
   void _initPlayer() async {
     this._chewieController = ChewieController(
